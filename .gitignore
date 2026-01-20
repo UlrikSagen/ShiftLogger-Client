@@ -8,7 +8,7 @@ Fine funksjoner.txt
 
 # IDE
 .idea/
-.vscode/
+/.vscode/
 
 # OS
 .DS_Store
