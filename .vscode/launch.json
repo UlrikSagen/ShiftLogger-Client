@@ -1,0 +1,21 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+        "type": "java",
+        "name": "Main",
+        "request": "launch",
+        "mainClass": "Main",
+        "projectName": "timetracker"
+    },
+    {
+        "type": "java",
+        "name": "Run TimeTracker",
+        "request": "launch",
+        "mainClass": "app.Main",
+        "projectName": "timetracker",
+        "preLaunchTask": "mvn: package",
+        "vmArgs": "-cp target/timetracker-1.0.jar"
+    }
+]
+}

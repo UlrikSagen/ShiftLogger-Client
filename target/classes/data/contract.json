@@ -1,0 +1,8 @@
+{
+    "salary": 260,
+    "overtimeFactor": 1.5,
+    "paidBreak": false,
+    "tariff": {
+      "tariff": "default"
+    }
+}
