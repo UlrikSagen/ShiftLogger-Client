@@ -1,15 +1,12 @@
 package view;
 
 import controller.Controller;
+import view.screens.*;
 
 import javax.swing.*;
-import java.awt.event.ActionListener;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
-import javax.swing.BoxLayout;
 import java.awt.CardLayout;
-import java.awt.Component;
 import java.awt.Font;
 import java.awt.Image;
 
@@ -19,8 +16,6 @@ public class MainView extends JFrame{
     private CardLayout cards;
     private JPanel root;
     private final Controller controller;
-    private JButton startButton;
-    private JButton exitButton;
     Color backgroundColor = new Color(0x141414);
     Color secondaryBackgroundColor = new Color(0x1F1F1F);
     Color textColor = new Color(0xD3D3D3);
@@ -37,10 +32,9 @@ public class MainView extends JFrame{
         root.setBackground(backgroundColor);
         add(root);
         this.controller = controller;
-        ImageIcon logo = new ImageIcon(res("images/Time-tracker-logo.png"));
         Image icon = new ImageIcon(res("images/Time-tracker-icon.png")).getImage();
 
-        TrayManager tray = new TrayManager(controller, this);
+        new TrayManager(this);
 
         setIconImage(icon);
         setTitle("Time Tracker");
@@ -95,7 +89,7 @@ public class MainView extends JFrame{
     //   });
     //
 
-    public static java.net.URL res(String path) {
+    public java.net.URL res(String path) {
         var url = MainView.class.getClassLoader().getResource(path);
         if (url == null) throw new IllegalStateException("Missing resource: " + path);
         return url;

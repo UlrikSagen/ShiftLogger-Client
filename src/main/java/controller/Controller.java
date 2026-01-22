@@ -4,7 +4,6 @@ import model.TimeEntry;
 import service.TimeService;
 import storage.TimeRepository;
 import model.Contract;
-import java.time.*;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -16,18 +15,15 @@ import java.time.LocalTime;
 public class Controller {
     
     private final TimeService service;
-    private final TimeRepository repo;
     private List<TimeEntry> entries;
-    private LocalTime startTime;
-    private LocalTime endTime;
+
     private Contract contract;
 
 
-    public Controller(TimeService service, TimeRepository repo) {
+    public Controller(TimeService service) {
         this.service = service;
-        this.repo = repo;
-        this.entries = repo.loadEntries();
-        this.contract = repo.loadContract();
+        this.entries = storage.TimeRepository.loadEntries();
+        this.contract = storage.TimeRepository.loadContract();
     }
 
     public void addOrEditEntry(LocalDate date, LocalTime start, LocalTime end) {
@@ -53,11 +49,11 @@ public class Controller {
     }
 
     public void reloadEntries() {
-        this.entries = repo.loadEntries();
+        this.entries = storage.TimeRepository.loadEntries();
     }
 
     public void saveEntries() {
-        repo.saveEntries(this.entries);
+        storage.TimeRepository.saveEntries(this.entries);
     }
 
     public void deleteEntry(LocalDate date) {

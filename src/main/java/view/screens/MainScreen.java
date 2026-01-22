@@ -1,18 +1,13 @@
-package view;
+package view.screens;
 
 import controller.Controller;
+import view.*;
 
 import javax.swing.*;
-import java.awt.event.ActionListener;
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.BoxLayout;
-import java.awt.CardLayout;
 import java.awt.Component;
 import java.awt.Font;
-import java.awt.Image;
 
 import java.time.LocalTime;
 import java.time.LocalDate;
@@ -43,7 +38,6 @@ public class MainScreen extends JPanel {
     private final MainView view;
 
     private javax.swing.Timer swingTimer;
-    private long elapsedSeconds;
     private LocalTime startTime;
     private Instant startInstant;
     private LocalDate startDate;
@@ -172,9 +166,6 @@ public class MainScreen extends JPanel {
         startDate = LocalDate.now();
         startTime = LocalTime.now().withNano(0);
         startInstant = Instant.now();
-
-
-        elapsedSeconds = -1;
 
         startButton.setVisible(false);
         stopButton.setVisible(true);

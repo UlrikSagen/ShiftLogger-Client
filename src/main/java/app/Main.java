@@ -2,7 +2,6 @@ package app;
 
 import view.*;
 import controller.Controller;
-import model.TimeEntry;
 import service.TimeService;
 import storage.TimeRepository;
 import com.formdev.flatlaf.FlatDarkLaf;
@@ -13,8 +12,9 @@ public class Main {
     public static void main(String[] args) {
         FlatDarkLaf.setup();
         AppTheme.apply();
+
         SwingUtilities.invokeLater(() -> {
-            Controller controller = new Controller(new TimeService(), new TimeRepository());
+            Controller controller = new Controller(new TimeService());
             new MainView(controller).showUI();
         });
         

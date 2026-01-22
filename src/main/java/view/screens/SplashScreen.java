@@ -1,31 +1,18 @@
-package view;
+package view.screens;
 
-import controller.Controller;
 import view.*;
 
 import javax.swing.*;
-import java.awt.event.ActionListener;
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.BoxLayout;
-import java.awt.CardLayout;
 import java.awt.Component;
 import java.awt.Font;
-import java.awt.Image;
 
 public class SplashScreen extends JPanel {
 
     private JButton startButton;
     private JButton exitButton;
-    //Color backgroundColor = new Color(0x141414);
-    //Color secondaryBackgroundColor = new Color(0x1F1F1F);
-    //Color textColor = new Color(0xD3D3D3);
-    //Color secondaryTextColor = new Color(0x7F7F7F);
-    //Color primaryColor = new Color(0x6b28c4);
-    //Color secondaryColor = new Color(0x2aa847);
-    //Font mainFont = new Font("Inter", Font.PLAIN, 16);
-
 
     public SplashScreen(MainView view){
 

@@ -1,7 +1,5 @@
 package view;
 
-import controller.Controller;
-
 import java.awt.SystemTray;
 import java.awt.TrayIcon;
 import java.awt.PopupMenu;
@@ -15,13 +13,11 @@ public class TrayManager {
     private final SystemTray tray;
     private final TrayIcon trayIcon;
     private final MainView view;
-    private final Controller controller;
     private final boolean supported;
 
 
-    public TrayManager(Controller controller, MainView view) {
+    public TrayManager(MainView view) {
         this.supported = SystemTray.isSupported();
-        this.controller = controller;
         this.view = view;
         if (!supported) {
             tray = null;

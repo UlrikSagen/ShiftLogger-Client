@@ -1,22 +1,13 @@
-package view;
+package view.screens;
 
 import controller.Controller;
+import view.AppTheme;
+import view.MainView;
 
 import javax.swing.*;
 import java.awt.*;
 
-import com.github.lgooddatepicker.components.DatePicker;
-import com.github.lgooddatepicker.components.DatePickerSettings;
-import com.github.lgooddatepicker.components.TimePicker;
-import com.github.lgooddatepicker.components.TimePickerSettings;
-
-
-
-import java.time.LocalTime;
 import java.time.LocalDate;
-import java.time.Instant;
-import java.time.Duration;
-import java.util.Locale;
 
 
 public class OverviewScreen extends JPanel{
@@ -40,11 +31,11 @@ public class OverviewScreen extends JPanel{
     private final String[] months = {
         "Januar", "Februar", "Mars", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Desember"
     };
-    private final JComboBox monthList = new JComboBox(months);
+    private final JComboBox<String[]> monthList = new JComboBox(months);
     private final String[] years = {
         "2025", "2026", "2027", "2028", "2029", "2030"
     };
-    private final JComboBox yearList = new JComboBox(years);
+    private final JComboBox<String[]> yearList = new JComboBox(years);
 
     private LocalDate currentDate = LocalDate.now();
     private String currentYear = String.valueOf(currentDate.getYear());

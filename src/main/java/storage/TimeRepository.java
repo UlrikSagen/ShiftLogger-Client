@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class TimeRepository {
 
-    public Contract loadContract() {
+    public static Contract loadContract() {
         try (InputStream in = TimeRepository.class.getClassLoader().getResourceAsStream("data/contract.json")) {
             if (in == null) {
                 throw new IllegalStateException("Fant ikke filen: data/contract.json");

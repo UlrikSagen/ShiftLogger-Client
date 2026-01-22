@@ -12,6 +12,7 @@ import java.awt.event.MouseEvent;
 /**
  * Central theme for the whole Swing app.
  * Call AppTheme.apply() once before creating any Swing components.
+ * This file is AI-Generated.
  */
 public final class AppTheme {
 

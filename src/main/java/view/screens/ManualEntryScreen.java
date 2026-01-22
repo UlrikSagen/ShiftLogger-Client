@@ -1,6 +1,7 @@
-package view;
+package view.screens;
 
 import controller.Controller;
+import view.*;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
