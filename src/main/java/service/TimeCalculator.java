@@ -32,18 +32,20 @@ public class TimeCalculator {
     }
 
     public static float calculateSalary(List<TimeEntry> entries, Contract contract, Duration overTime){
-        int salary = contract.getSalary();
-        int totalMinutes = getTotalMinutes(entries);
-        float overTimeSalary =  ((overTime.toMinutes()/60) * salary * contract.getOvertimeFactor());
-        float totalSalary = overTimeSalary + ((totalMinutes * salary)/60);
+        float salary = contract.getSalary();
+        float totalMinutes = getTotalMinutes(entries);
+        float overtimeHours = overTime.toMinutes()/60.0f;
+        float overTimeSalary =  overtimeHours * salary * contract.getOvertimeFactor();
+        float totalSalary = overTimeSalary + ((totalMinutes * salary)/60);  
 
 
         return totalSalary;
     }
 
     public static float calculateOvertimeSalary(Contract contract, Duration overTime){
-        int salary = contract.getSalary();
-        float overTimeSalary =  ((overTime.toMinutes()/60) * salary * contract.getOvertimeFactor());
+        float salary = contract.getSalary();
+        float overtimeHours = overTime.toMinutes()/60.0f;
+        float overTimeSalary =  overtimeHours * salary * contract.getOvertimeFactor();
         return overTimeSalary;
     }
 

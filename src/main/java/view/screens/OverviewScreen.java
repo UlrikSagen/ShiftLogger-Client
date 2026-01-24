@@ -88,7 +88,6 @@ public class OverviewScreen extends JPanel{
         hoursWorked.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         //SALARY LABEL
-        //salaryLabel.setText("Estimated Salary: " + (controller.getSalary(getMonth(), getYear()) + "kr"));
         salaryLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         //DROP DOWN PANEL
@@ -145,8 +144,7 @@ public class OverviewScreen extends JPanel{
     public void refresh(){
         textArea.setText(controller.entriesToString(getMonth(), getYear()));
         hoursWorked.setText(controller.hoursWorkedString(getMonth(), getYear()));
-        //salaryLabel.setText("Estimated Salary: " + (controller.getSalary(getMonth(), getYear()) + "kr"));
-
+        salaryLabel.setText("Estimated Salary: " + (controller.getSalary(getMonth(), getYear()) + "kr"));
     }
 
     private void back(){

@@ -13,7 +13,11 @@ import model.TimeEntry;
 
 public class TimeRepository {
 
-    public static Contract loadContract() {
+    public TimeRepository(){
+
+    }
+
+    public Contract loadContract() {
         try (InputStream in = TimeRepository.class.getClassLoader().getResourceAsStream("data/contract.json")) {
             if (in == null) {
                 throw new IllegalStateException("Fant ikke filen: data/contract.json");
@@ -34,21 +38,21 @@ public class TimeRepository {
         }
     }
 
-    private static String extractNumber(String json, String key) {
+    private String extractNumber(String json, String key) {
         String pattern = "\"" + key + "\"\\s*:\\s*([-+]?[0-9]*\\.?[0-9]+)";
         java.util.regex.Matcher m = java.util.regex.Pattern.compile(pattern).matcher(json);
         if (m.find()) return m.group(1);
         throw new IllegalStateException("Fant ikke " + key + " i contract.json");
     }
 
-    private static String extractValue(String json, String key) {
+    private String extractValue(String json, String key) {
         String pattern = "\"" + key + "\"\\s*:\\s*(true|false)";
         java.util.regex.Matcher m = java.util.regex.Pattern.compile(pattern, java.util.regex.Pattern.CASE_INSENSITIVE).matcher(json);
         if (m.find()) return m.group(1).toLowerCase();
         throw new IllegalStateException("Fant ikke " + key + " i contract.json");
     }
 
-    private static String extractString(String json, String key) {
+    private String extractString(String json, String key) {
         String pattern = "\"" + key + "\"\\s*:\\s*\"([^\"]*)\"";
         java.util.regex.Matcher m = java.util.regex.Pattern.compile(pattern).matcher(json);
         if (m.find()) return m.group(1);
@@ -59,12 +63,11 @@ public class TimeRepository {
         throw new IllegalStateException("Fant ikke " + key + " i contract.json");
     }
 
-    public static  List<TimeEntry> loadEntries() {
+    public List<TimeEntry> loadEntries() {
         return CSVRepository.loadCSVEntries();
     }
 
-    public static void saveEntries(List<TimeEntry> entries) {
-        // Placeholder for saving entries to a CSV file
+    public void saveEntries(List<TimeEntry> entries) {
         CSVRepository.saveEntries(entries);
     }
 }

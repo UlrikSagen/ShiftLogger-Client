@@ -6,6 +6,7 @@ import com.formdev.flatlaf.FlatDarkLaf;
 
 import controller.Controller;
 import service.TimeService;
+import storage.TimeRepository;
 import view.AppTheme;
 import view.MainView;
 
@@ -15,7 +16,7 @@ public class Main {
         AppTheme.apply();
 
         SwingUtilities.invokeLater(() -> {
-            Controller controller = new Controller(new TimeService());
+            Controller controller = new Controller(new TimeService(new TimeRepository()));
             new MainView(controller).showUI();
         });
         

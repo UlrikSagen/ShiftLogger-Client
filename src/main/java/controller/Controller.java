@@ -2,9 +2,9 @@ package controller;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
-import model.Contract;
 import model.TimeEntry;
 import service.TimeService;
 import storage.TimeRepository;
@@ -14,61 +14,60 @@ import storage.TimeRepository;
 public class Controller {
     
     private final TimeService service;
-    private List<TimeEntry> entries;
-    private final Contract contract;
-
 
     public Controller(TimeService service) {
         this.service = service;
-        this.entries = TimeRepository.loadEntries();
-        this.contract = TimeRepository.loadContract();
     }
 
     public void addOrEditEntry(LocalDate date, LocalTime start, LocalTime end) {
-        this.entries = service.addOrEdit(this.entries, date, start.withSecond(0).withNano(0), end.withSecond(0).withNano(0));
-        saveEntries();
-    }
-
-    public List<TimeEntry> getAll() {
-        return this.entries;
+        service.addOrEdit(date, start.withSecond(0).withNano(0), end.withSecond(0).withNano(0));
     }
 
     public List<TimeEntry> getEntriesByMonth(int month, int year) {
-        return service.filterByMonth(this.entries, month, year);
+        return service.filterByMonth(month, year);
     }
 
     public int getMinutesByMonth(int month, int year) {
-        List<TimeEntry> monthlyEntries = getEntriesByMonth(month, year);
-        return service.getTotalMinutes(monthlyEntries);
+        return service.getTotalMinutes(month, year);
     }
 
     public int getTotalMinutes() {
-        return service.getTotalMinutes(this.entries);
+        return service.getTotalMinutes();
     }
 
-    public void reloadEntries() {
-        this.entries = TimeRepository.loadEntries();
-    }
-
-    public void saveEntries() {
-        TimeRepository.saveEntries(this.entries);
-    }
 
     public void deleteEntry(LocalDate date) {
-        this.entries = service.deleteEntry(this.entries, date);
-        saveEntries();
+        service.deleteEntry(date);
     }
 
     public String getDate(){
-        LocalDate date = LocalDate.now();
-        return date.toString();
+        return LocalDate.now().toString();
     }
 
     public String entriesToString(int month, int year){
         List<TimeEntry> entriesByMonth = getEntriesByMonth(month, year);
-        List<String> entriesByMonthList = service.getListOfStrings(entriesByMonth);
-        String printableString = service.printableString(entriesByMonthList);
+        List<String> entriesByMonthList = getListOfStrings(entriesByMonth);
+        String printableString = printableString(entriesByMonthList);
         return printableString;
+    }
+
+    public List<String> getListOfStrings(List<TimeEntry> entriesByMonth){
+        List<String> listOfStrings =  new ArrayList<>();
+        String entryToString;
+        for (TimeEntry entry : entriesByMonth){
+            entryToString = entry.getDate() + ":     " + entry.getStart() + "   -   " + entry.getEnd();
+            listOfStrings.add(entryToString);
+        }
+        return listOfStrings;
+    }
+
+    public String entryToString(TimeEntry entry){
+        String entryToString = entry.getDate() + ":     " + entry.getStart() + "   -   " + entry.getEnd();
+        return entryToString;
+    }
+
+    public String printableString(List<String> entries) {
+        return String.join("\n", entries);
     }
 
     public String hoursWorkedString(int month, int year){
@@ -76,19 +75,23 @@ public class Controller {
     }
 
     public float getSalaryByMonth(int month, int year){
-        return service.calculateSalary(getEntriesByMonth(month, year), this.contract);
+        return service.calculateSalary(month, year);
     }
 
     public float getSalary(){
-        return service.calculateSalary(this.entries, this.contract);
+        return service.calculateSalary();
+    }
+
+    public float getSalary(int month, int year){
+        return service.calculateSalary(month, year);
     }
 
     public float getOvertimeSalaryByMonth(int month, int year){
-        return service.calculateOverTimeSalary(getEntriesByMonth(month, year), this.contract);
+        return service.calculateOverTimeSalary(month, year);
     }
 
     public float getOvertimeSalary(){
-        return service.calculateOverTimeSalary(this.entries, this.contract);
+        return service.calculateOverTimeSalary();
     }
 
     //public Timer timer(){
