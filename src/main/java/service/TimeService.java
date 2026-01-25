@@ -83,10 +83,6 @@ public class TimeService {
         return filtered;
     }
 
-    //method for formatting single entry to string
-
-    //method for formatting list of entries to printable string
-
     //method for formatting hours worked string
     public String hoursWorkedString(int totalMinutes){
         return(totalMinutes/60 + " hours and " + totalMinutes % 60 + " minutes.");
@@ -126,6 +122,7 @@ public class TimeService {
         return overTimeSalary;
     }
 
+    //method for calculatin overtime salary by given month and year
     public float calculateOverTimeSalary(int month, int year){
         Duration totalOvertime = Duration.ZERO;
         for (TimeEntry entry : filterByMonth(month, year)){

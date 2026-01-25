@@ -24,11 +24,11 @@ public class TimeCalculator {
     }
 
     public static Duration calculateOvertimeHours(Duration duration){
-        if(duration.toMinutes()>600){
-            duration = duration.minusMinutes(600);
+        if(duration.toMinutes()>540){
+            duration = duration.minusMinutes(540);
             return duration;
         }
-        return Duration.ofMinutes(0);
+        return Duration.ZERO;
     }
 
     public static float calculateSalary(List<TimeEntry> entries, Contract contract, Duration overTime){

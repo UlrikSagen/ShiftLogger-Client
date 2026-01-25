@@ -25,6 +25,7 @@ public class TimeRepository {
             String json = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8))
                     .lines().collect(Collectors.joining("\n"));
 
+            String salaryType = extractString(json, "salary_type");
             int salary = Integer.parseInt(extractNumber(json, "salary"));
             float overtime = Float.parseFloat(extractNumber(json, "overtimeFactor"));
             boolean paidBreak = Boolean.parseBoolean(extractValue(json, "paidBreak"));
@@ -32,7 +33,7 @@ public class TimeRepository {
             float hoursByWeek = Float.parseFloat(extractNumber(json, "hoursByWeek"));
 
 
-            return new Contract(salary, overtime, paidBreak, hoursByWeek, new Tariff(tariff));
+            return new Contract(salaryType, salary, overtime, paidBreak, hoursByWeek, new Tariff(tariff));
         } catch (Exception e) {
             throw new IllegalStateException("Feil ved lasting av kontrakt", e);
         }
