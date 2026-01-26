@@ -128,7 +128,6 @@ public class MainScreen extends JPanel {
         settingsButton.addActionListener(e -> settings());
 
         //HIDE BUTTON
-
         AppTheme.styleMenuButton(hideButton);
         hideButton.addActionListener(e -> minimizeToTray());
 
@@ -164,7 +163,6 @@ public class MainScreen extends JPanel {
         menu.add(hideButton);
         menu.add(Box.createVerticalStrut(10));
         menu.add(exitButton);
-
     }
 
     private void startTimer(){
@@ -209,7 +207,9 @@ public class MainScreen extends JPanel {
     }
 
     private void exit(){
-        swingTimer.stop();
+        if (swingTimer.isRunning()){
+            stopTimer();
+        }
         view.exit();
     }
 

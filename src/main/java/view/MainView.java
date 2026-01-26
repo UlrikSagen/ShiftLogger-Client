@@ -2,6 +2,7 @@ package view;
 
 import controller.Controller;
 import view.screens.*;
+import view.util.TrayManager;
 
 import javax.swing.*;
 import java.awt.BorderLayout;
@@ -46,7 +47,7 @@ public class MainView extends JFrame{
 
         overviewScreen = new OverviewScreen(this, controller);
 
-        root.add(new SplashScreen(this), "start");
+        //root.add(new SplashScreen(this), "start");
         root.add(new MainScreen(this, controller), "main");
         root.add(overviewScreen, "overview");
         root.add(new ManualEntryScreen(this, controller), "manualentry");

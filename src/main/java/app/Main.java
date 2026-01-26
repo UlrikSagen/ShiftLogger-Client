@@ -1,5 +1,7 @@
 package app;
 
+import java.nio.file.Path;
+
 import javax.swing.SwingUtilities;
 
 import com.formdev.flatlaf.FlatDarkLaf;
@@ -9,6 +11,7 @@ import service.TimeService;
 import storage.TimeRepository;
 import view.AppTheme;
 import view.MainView;
+import storage.SQLiteRepository;
 
 public class Main {
     public static void main(String[] args) {
@@ -16,7 +19,9 @@ public class Main {
         AppTheme.apply();
 
         SwingUtilities.invokeLater(() -> {
-            Controller controller = new Controller(new TimeService(new TimeRepository()));
+            Path dbPath = Path.of(System.getProperty("user.home"), ".timetracker", "timetracker.db");
+            TimeRepository repo = new SQLiteRepository(dbPath);
+            Controller controller = new Controller(new TimeService(repo));
             new MainView(controller).showUI();
         });
         

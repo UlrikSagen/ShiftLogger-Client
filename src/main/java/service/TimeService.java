@@ -35,7 +35,7 @@ public class TimeService {
 
         for (TimeEntry entry : this.entries) {
             if (entry.getDate().equals(date)){
-                out.add(new TimeEntry(date, start, end));
+                out.add(new TimeEntry(date, start.withSecond(0).withNano(0), end.withSecond(0).withNano(0)));
                 replaced = true;
             } else {
                 out.add(entry);
@@ -43,7 +43,7 @@ public class TimeService {
         }
 
         if (!replaced) {
-            out.add(new TimeEntry(date, start, end));
+            out.add(new TimeEntry(date, start.withSecond(0).withNano(0), end.withSecond(0).withNano(0)));
         }
         this.entries = out;
         saveEntries();
@@ -84,40 +84,27 @@ public class TimeService {
     }
 
     public long getMinutesByEntry(TimeEntry entry){
-        int minutes = 0;
-        minutes += TimeCalculator.calculateBreak(Duration.between(entry.getStart(), entry.getEnd())).toMinutes();
-        return minutes;
+        return TimeCalculator.calculateBreak(Duration.between(entry.getStart(), entry.getEnd())).toMinutes();
     }
 
     //method for calculating total salary
     public float calculateSalary(){
-        Duration overTime = Duration.ZERO;
-        for (TimeEntry entry : this.entries){
-            overTime = overTime.plus(TimeCalculator.calculateOvertimeHours(Duration.between(entry.getStart(), entry.getEnd())));
-        }
+        Duration overTime = getOvertime();
         float totalSalary = TimeCalculator.calculateSalary(this.entries, this.contract, overTime);
 
         return totalSalary;
     }
 
     public float calculateSalary(int month, int year){
-        Duration overTime = Duration.ZERO;
-        for (TimeEntry entry : this.entries){
-            if (entry.getDate().getMonthValue() == month && entry.getDate().getYear() == year) {
-                overTime = overTime.plus(TimeCalculator.calculateOvertimeHours(Duration.between(entry.getStart(), entry.getEnd())));
-            }
-        }
-        float totalSalary = TimeCalculator.calculateSalary(filterByMonth(month, year), this.contract, overTime);
+        Duration totalOvertime = getOvertime(month, year);
+        float totalSalary = TimeCalculator.calculateSalary(filterByMonth(month, year), this.contract, totalOvertime);
 
         return totalSalary;
     }
 
     //method for calculating overtime salary
     public float calculateOverTimeSalary(){
-        Duration totalOvertime = Duration.ZERO;
-        for (TimeEntry entry : this.entries){
-            totalOvertime = totalOvertime.plus(TimeCalculator.calculateOvertimeHours(Duration.between(entry.getStart(), entry.getEnd())));
-        }
+        Duration totalOvertime = getOvertime();
         float overTimeSalary = TimeCalculator.calculateOvertimeSalary(this.contract, totalOvertime);
         
         return overTimeSalary;
@@ -125,10 +112,7 @@ public class TimeService {
 
     //method for calculatin overtime salary by given month and year
     public float calculateOverTimeSalary(int month, int year){
-        Duration totalOvertime = Duration.ZERO;
-        for (TimeEntry entry : filterByMonth(month, year)){
-            totalOvertime = totalOvertime.plus(TimeCalculator.calculateOvertimeHours(Duration.between(entry.getStart(), entry.getEnd())));
-        }
+        Duration totalOvertime = getOvertime(month, year);
         float overTimeSalary = TimeCalculator.calculateOvertimeSalary(this.contract, totalOvertime);
         
         return overTimeSalary;
@@ -136,5 +120,20 @@ public class TimeService {
 
     public void saveEntries(){
         repo.saveEntries(this.entries);
+    }
+
+    public Duration getOvertime(int month, int year){
+        Duration totalOvertime = Duration.ZERO;
+        for (TimeEntry entry : filterByMonth(month, year)){
+            totalOvertime = totalOvertime.plus(TimeCalculator.calculateOvertimeHours(Duration.between(entry.getStart(), entry.getEnd())));
+        }
+        return totalOvertime;
+    }
+    public Duration getOvertime(){
+        Duration totalOvertime = Duration.ZERO;
+        for (TimeEntry entry : this.entries){
+            totalOvertime = totalOvertime.plus(TimeCalculator.calculateOvertimeHours(Duration.between(entry.getStart(), entry.getEnd())));
+        }
+        return totalOvertime;
     }
 }

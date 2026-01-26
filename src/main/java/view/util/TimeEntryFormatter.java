@@ -6,7 +6,7 @@ import java.time.LocalTime;
 
 import model.TimeEntry;
 
-public class timeEntryFormatter {
+public class TimeEntryFormatter {
 
     private static final DateTimeFormatter DATE = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     private static final DateTimeFormatter TIME = DateTimeFormatter.ofPattern("HH:mm");
@@ -23,5 +23,8 @@ public class timeEntryFormatter {
     }
     public static String getTime(LocalTime time){
         return time.format(TIME);
+    }
+    public static String getSalary(float salary){
+        return String.format("%1$,3.2f", salary);
     }
 }

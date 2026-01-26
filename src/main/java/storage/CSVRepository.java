@@ -13,14 +13,16 @@ import java.util.List;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 
+import model.Contract;
 import model.TimeEntry;
 
 
-public class CSVRepository {
+public class CSVRepository implements TimeRepository{
 
     private static final Path DATA_FILE = Paths.get(System.getProperty("user.dir"), "entries.csv");
+    private final ContractLoader contractLoader = new ContractLoader();
 
-    public static List<TimeEntry> loadCSVEntries() {
+    public List<TimeEntry> loadEntries() {
         List<TimeEntry> entries = new ArrayList<>();
 
         if (!Files.exists(DATA_FILE)) {
@@ -44,7 +46,7 @@ public class CSVRepository {
     }
 
 
-    public static void saveEntries(List<TimeEntry> entries) {
+    public void saveEntries(List<TimeEntry> entries) {
         try (CSVWriter writer = new CSVWriter(
                 new FileWriter(DATA_FILE.toFile()),
                 CSVWriter.DEFAULT_SEPARATOR,
@@ -63,5 +65,12 @@ public class CSVRepository {
         } catch (Exception e) {
             throw new RuntimeException("Failed to write CSV file: " + DATA_FILE, e);
         }
+    }
+    public Contract loadContract(){
+        return contractLoader.loadContract();
+    }
+
+    public void saveContract(Contract contract){
+        contractLoader.saveContract(contract);
     }
 }

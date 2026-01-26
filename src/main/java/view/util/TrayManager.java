@@ -1,7 +1,10 @@
-package view;
+package view.util;
 
 import java.awt.SystemTray;
 import java.awt.TrayIcon;
+
+import view.MainView;
+
 import java.awt.PopupMenu;
 import java.awt.MenuItem;
 import java.awt.Image;

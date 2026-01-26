@@ -15,7 +15,7 @@ import controller.Controller;
 import view.AppTheme;
 import view.MainView;
 import view.util.MonthEntriesPanel;
-import view.util.timeEntryFormatter;
+import view.util.TimeEntryFormatter;
 
 
 public class OverviewScreen extends JPanel{
@@ -28,7 +28,7 @@ public class OverviewScreen extends JPanel{
     private final JPanel dropDown = new JPanel();
     private final JPanel menu = new JPanel();
 
-    private final JLabel entries = new JLabel("Current Entries:");
+    private final JLabel entries = new JLabel("Overview");
     private final JLabel hoursWorked = new JLabel();
     private final JLabel salaryLabel = new JLabel();
 
@@ -66,13 +66,14 @@ public class OverviewScreen extends JPanel{
 
         //ENTRIES LABEL
         entries.setAlignmentX(Component.CENTER_ALIGNMENT);
+        entries.setFont(AppTheme.FONT_TITLE);
 
         //TEST FOR ENTRY PANEL
         panelEntriesPanel.setEntriesForMonth(controller.getEntriesByMonth(getMonth(), getYear()));
         panelEntriesPanel.setFocusable(false);
 
         //HOURS WORKED LABEL
-        hoursWorked.setText(timeEntryFormatter.hoursWorked(controller.getMinutesByMonth(getMonth(), getYear())));
+        hoursWorked.setText(TimeEntryFormatter.hoursWorked(controller.getMinutesByMonth(getMonth(), getYear())));
         hoursWorked.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         //SALARY LABEL
@@ -129,8 +130,8 @@ public class OverviewScreen extends JPanel{
 
     public void refresh(){
         panelEntriesPanel.setEntriesForMonth(controller.getEntriesByMonth(getMonth(), getYear()));
-        hoursWorked.setText(timeEntryFormatter.hoursWorked(controller.getMinutesByMonth(getMonth(), getYear())));
-        salaryLabel.setText("Estimated Salary: " + (controller.getSalary(getMonth(), getYear()) + "kr"));
+        hoursWorked.setText(TimeEntryFormatter.hoursWorked(controller.getMinutesByMonth(getMonth(), getYear())));
+        salaryLabel.setText("Estimated Salary: " + TimeEntryFormatter.getSalary((controller.getSalary(getMonth(), getYear())))+ "kr.");
     }
 
     private void back(){

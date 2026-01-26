@@ -2,7 +2,6 @@ package controller;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
 
 import model.TimeEntry;
@@ -19,7 +18,7 @@ public class Controller {
     }
 
     public void addOrEditEntry(LocalDate date, LocalTime start, LocalTime end) {
-        service.addOrEdit(date, start.withSecond(0).withNano(0), end.withSecond(0).withNano(0));
+        service.addOrEdit(date, start, end);
     }
 
     public List<TimeEntry> getEntriesByMonth(int month, int year) {
@@ -35,9 +34,7 @@ public class Controller {
     }
 
     public int getMinutesByEntry(TimeEntry entry){
-        int minutes = 0;
-        minutes += service.getMinutesByEntry(entry);
-        return minutes;
+        return (int)service.getMinutesByEntry(entry);
     }
 
 
@@ -47,10 +44,6 @@ public class Controller {
 
     public String getDate(){
         return LocalDate.now().toString();
-    }
-
-    public float getSalaryByMonth(int month, int year){
-        return service.calculateSalary(month, year);
     }
 
     public float getSalary(){
@@ -68,11 +61,5 @@ public class Controller {
     public float getOvertimeSalary(){
         return service.calculateOverTimeSalary();
     }
-
-    //public Timer timer(){
-    //    Timer timer = new Timer();
-    //    return timer;
-    //}
-
 }
 
