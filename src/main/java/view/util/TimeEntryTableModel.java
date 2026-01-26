@@ -4,7 +4,6 @@ import model.TimeEntry;
 import controller.Controller;
 
 import javax.swing.table.AbstractTableModel;
-import java.time.Duration;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;  
@@ -14,14 +13,12 @@ public class TimeEntryTableModel extends AbstractTableModel {
     private final String[] cols = {"Dato", "Start", "Slutt", "Varighet"};
     private final List<TimeEntry> rows = new ArrayList<>();
 
-    private static final DateTimeFormatter DATE = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-    private static final DateTimeFormatter TIME = DateTimeFormatter.ofPattern("HH:mm");
-
     Controller controller;
 
     public TimeEntryTableModel(Controller controller){
         this.controller = controller;
     }
+
     public void setEntries(List<TimeEntry> entries) {
         rows.clear();
         rows.addAll(entries);
@@ -45,9 +42,9 @@ public class TimeEntryTableModel extends AbstractTableModel {
     public Object getValueAt(int r, int c) {
         TimeEntry e = rows.get(r);
         return switch (c) {
-            case 0 -> e.getDate().format(DATE);
-            case 1 -> e.getStart().format(TIME);
-            case 2 -> e.getEnd().format(TIME);
+            case 0 -> timeEntryFormatter.getDate(e.getDate());
+            case 1 -> timeEntryFormatter.getTime(e.getStart());
+            case 2 -> timeEntryFormatter.getTime(e.getEnd());
             case 3 -> formatDuration(controller.getMinutesByEntry(e));
             default -> "";
         };

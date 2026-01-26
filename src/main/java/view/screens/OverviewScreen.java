@@ -69,6 +69,7 @@ public class OverviewScreen extends JPanel{
 
         //TEST FOR ENTRY PANEL
         panelEntriesPanel.setEntriesForMonth(controller.getEntriesByMonth(getMonth(), getYear()));
+        panelEntriesPanel.setFocusable(false);
 
         //HOURS WORKED LABEL
         hoursWorked.setText(timeEntryFormatter.hoursWorked(controller.getMinutesByMonth(getMonth(), getYear())));

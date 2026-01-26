@@ -17,8 +17,9 @@ public class MonthEntriesPanel extends JPanel {
         this.controller = controller;
         this.model = new TimeEntryTableModel(controller);
         this.table = new JTable(model);
-        
+
         setLayout(new BorderLayout());
+        setFocusable(false);
 
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         table.setFillsViewportHeight(true);

@@ -30,7 +30,7 @@ public class MainScreen extends JPanel {
     private final JButton startButton = new JButton("Start Timer");
     private final JButton stopButton = new JButton("Stop Timer");
     private final JButton manualButton = new JButton("Manual Entry");
-    private final JButton exitButton = new JButton("Shut Down");
+    private final JButton exitButton = new JButton("Exit");
     private final JButton overviewButton = new JButton("Overview");
     private final JButton settingsButton = new JButton("Settings");
     private final JButton hideButton = new JButton("Hide Window");
