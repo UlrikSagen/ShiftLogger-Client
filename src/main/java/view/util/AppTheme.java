@@ -1,4 +1,4 @@
-package view;
+package view.util;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -18,7 +18,7 @@ public final class AppTheme {
 
     private AppTheme() {}
 
-    // ===== Your palette (based on your MainView colors) =====
+    // ===== Your palette =====
     public static final Color BG            = new Color(0x141414);
     public static final Color BG_2          = new Color(0x1F1F1F);
     public static final Color BG_3          = new Color(0x2A2A2A);

@@ -17,8 +17,8 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import controller.Controller;
-import view.AppTheme;
 import view.MainView;
+import view.util.AppTheme;
 
 public class MainScreen extends JPanel {
 

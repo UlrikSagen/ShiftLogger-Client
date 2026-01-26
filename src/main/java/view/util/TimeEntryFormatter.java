@@ -1,6 +1,7 @@
 package view.util;
 
 import java.time.format.DateTimeFormatter;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -26,5 +27,8 @@ public class TimeEntryFormatter {
     }
     public static String getSalary(float salary){
         return String.format("%1$,3.2f", salary);
+    }
+    public static String getOvertime(Duration overtime){
+        return String.valueOf("OT:  " + overtime.toHours()%60) + " hours and "+ String.valueOf(overtime.toMinutes()/60 + " minutes.");
     }
 }

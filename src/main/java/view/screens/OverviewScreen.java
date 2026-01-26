@@ -12,8 +12,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import controller.Controller;
-import view.AppTheme;
 import view.MainView;
+import view.util.AppTheme;
 import view.util.MonthEntriesPanel;
 import view.util.TimeEntryFormatter;
 
@@ -131,7 +131,8 @@ public class OverviewScreen extends JPanel{
     public void refresh(){
         panelEntriesPanel.setEntriesForMonth(controller.getEntriesByMonth(getMonth(), getYear()));
         hoursWorked.setText(TimeEntryFormatter.hoursWorked(controller.getMinutesByMonth(getMonth(), getYear())));
-        salaryLabel.setText("Estimated Salary: " + TimeEntryFormatter.getSalary((controller.getSalary(getMonth(), getYear())))+ "kr.");
+        salaryLabel.setText(TimeEntryFormatter.getOvertime(controller.getOvertime(getMonth(), getYear())));
+        //salaryLabel.setText("Estimated Salary: " + TimeEntryFormatter.getSalary((controller.getSalary(getMonth(), getYear())))+ "kr.");
     }
 
     private void back(){

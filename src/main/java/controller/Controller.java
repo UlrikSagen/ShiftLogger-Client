@@ -1,5 +1,6 @@
 package controller;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -37,7 +38,6 @@ public class Controller {
         return (int)service.getMinutesByEntry(entry);
     }
 
-
     public void deleteEntry(LocalDate date) {
         service.deleteEntry(date);
     }
@@ -60,6 +60,12 @@ public class Controller {
 
     public float getOvertimeSalary(){
         return service.calculateOverTimeSalary();
+    }
+    public Duration getOvertime(){
+        return service.getOvertime();
+    }
+    public Duration getOvertime(int month, int year){
+        return service.getOvertime(month, year);
     }
 }
 

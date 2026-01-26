@@ -9,8 +9,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import controller.Controller;
-import view.AppTheme;
 import view.MainView;
+import view.util.*;
 
 public class ManualEntryScreen extends JPanel{
     private final Controller controller;

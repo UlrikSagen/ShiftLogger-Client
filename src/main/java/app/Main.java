@@ -9,8 +9,8 @@ import com.formdev.flatlaf.FlatDarkLaf;
 import controller.Controller;
 import service.TimeService;
 import storage.TimeRepository;
-import view.AppTheme;
 import view.MainView;
+import view.util.AppTheme;
 import storage.SQLiteRepository;
 
 public class Main {

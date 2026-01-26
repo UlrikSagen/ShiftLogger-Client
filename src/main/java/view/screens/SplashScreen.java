@@ -1,6 +1,7 @@
 package view.screens;
 
 import view.*;
+import view.util.AppTheme;
 
 import javax.swing.*;
 import java.awt.BorderLayout;
