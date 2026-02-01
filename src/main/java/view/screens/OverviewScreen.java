@@ -45,9 +45,9 @@ public class OverviewScreen extends JPanel{
 
     private final LocalDate currentDate = LocalDate.now();
     private final String currentYear = String.valueOf(currentDate.getYear());
-    private final int currentMonth = currentDate.getMonthValue();
+    private final String currentMonth = months[currentDate.getMonthValue() - 1];
 
-    private MonthEntriesPanel panelEntriesPanel;
+    private final MonthEntriesPanel panelEntriesPanel;
 
     public OverviewScreen(MainView view, Controller controller){
         this.controller = controller;
