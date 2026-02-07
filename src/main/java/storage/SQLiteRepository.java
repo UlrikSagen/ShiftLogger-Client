@@ -32,8 +32,8 @@ public class SQLiteRepository implements TimeRepository {
     private void initSchema() {
         String sql = """
             CREATE TABLE IF NOT EXISTS time_entries (
-                id TEXT NOT NULL,
-                date TEXT PRIMARY KEY,
+                id TEXT PRIMARY KEY,
+                date TEXT NOT NULL,
                 start_time TEXT NOT NULL,
                 end_time TEXT NOT NULL
             );
