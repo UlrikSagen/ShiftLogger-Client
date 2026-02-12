@@ -1,4 +1,4 @@
-package view.screens;
+package shiftlogger.view.screens;
 
 import java.awt.Component;
 import java.awt.Dimension;
@@ -11,11 +11,11 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import controller.Controller;
-import view.MainView;
-import view.util.AppTheme;
-import view.util.MonthEntriesPanel;
-import view.util.TimeEntryFormatter;
+import shiftlogger.controller.Controller;
+import shiftlogger.view.MainView;
+import shiftlogger.view.util.AppTheme;
+import shiftlogger.view.util.MonthEntriesPanel;
+import shiftlogger.view.util.TimeEntryFormatter;
 
 
 public class OverviewScreen extends JPanel{

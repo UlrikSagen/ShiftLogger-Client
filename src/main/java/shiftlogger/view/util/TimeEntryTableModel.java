@@ -1,7 +1,7 @@
-package view.util;
+package shiftlogger.view.util;
 
-import model.TimeEntry;
-import controller.Controller;
+import shiftlogger.controller.Controller;
+import shiftlogger.model.TimeEntry;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
