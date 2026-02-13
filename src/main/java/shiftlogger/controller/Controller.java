@@ -6,6 +6,7 @@ import java.time.LocalTime;
 import java.util.List;
 
 import shiftlogger.service.TimeService;
+import shiftlogger.service.AuthService;
 import shiftlogger.model.TimeEntry;
 
 
@@ -13,9 +14,11 @@ import shiftlogger.model.TimeEntry;
 public class Controller {
     
     private final TimeService service;
+    private final AuthService authService;
 
-    public Controller(TimeService service) {
+    public Controller(TimeService service, AuthService authService) {
         this.service = service;
+        this.authService = authService;
     }
 
     public void addOrEditEntry(LocalDate date, LocalTime start, LocalTime end) {
@@ -73,6 +76,20 @@ public class Controller {
     }
     public boolean validateEntry(LocalDate date, LocalTime start, LocalTime end){
         return service.validateEntry(date, start, end);
+    }
+
+    //AUTHENTICATION
+    public boolean register(String username, String pwd){
+        return authService.registerUser(username, pwd);
+    }
+
+    public void login(String username, String pwd){
+        try{
+            authService.login(username, pwd);
+        } catch(Exception e){
+            System.out.println(e.getMessage());
+            throw new RuntimeException("Could not log in");
+        }
     }
 }
 

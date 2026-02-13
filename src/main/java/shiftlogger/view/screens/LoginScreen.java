@@ -63,16 +63,14 @@ public class LoginScreen extends JPanel {
         subtitle.setAlignmentX(Component.CENTER_ALIGNMENT);
         subtitle.setFont(new Font("Inter", Font.PLAIN, 12));
         subtitle.setForeground(AppTheme.TEXT_MUTED);
-        card.add(subtitle);
+        //card.add(subtitle);
 
         card.add(Box.createVerticalStrut(22));
 
-        // Form (GridBag: label + felt)
         JPanel form = new JPanel(new GridBagLayout());
         form.setOpaque(false);
         form.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        // Feltene skal være jevne og ikke strekke seg hele skjermen
         Dimension fieldSize = new Dimension(260, 36);
         usernameField.setPreferredSize(fieldSize);
         usernameField.setMinimumSize(fieldSize);
@@ -89,6 +87,7 @@ public class LoginScreen extends JPanel {
         addRow(form, 1, "Password", passwordField);
 
         card.add(form);
+        card.add(subtitle);
         card.add(Box.createVerticalStrut(14));
 
         // Status (feil/info)
@@ -112,7 +111,6 @@ public class LoginScreen extends JPanel {
 
         card.add(buttons);
 
-        // wrapper: lås kortbredden litt
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -156,7 +154,6 @@ public class LoginScreen extends JPanel {
     private void wireActions() {
         exitButton.addActionListener(e -> view.exit());
 
-        // Enter i password => login
         passwordField.addActionListener(e -> login());
         usernameField.addActionListener(e -> passwordField.requestFocusInWindow());
         loginButton.addActionListener(e -> login());
@@ -170,7 +167,6 @@ public class LoginScreen extends JPanel {
         char[] pw = passwordField.getPassword();
         String password = new String(pw);
 
-        // basic client-side validering (så slipper du API roundtrip)
         if (username.isBlank()) {
             statusLabel.setText("Username is required.");
             setBusy(false);
@@ -182,13 +178,14 @@ public class LoginScreen extends JPanel {
             return;
         }
 
-        // Ikke block EDT (Swing UI-tråd) – bruk SwingWorker
         SwingWorker<Void, Void> worker = new SwingWorker<>() {
             @Override protected Void doInBackground() throws Exception {
                 
-                // TODO: bytt til auth.login når du har riktig LoginResponse record
-                // var user = auth.login(username, password);
-                // view.setUser(user);
+                try{
+                    controller.login(username, password);
+                } catch (RuntimeException e){
+                    throw new RuntimeException();
+                }
                 return null;
             }
 
@@ -197,11 +194,11 @@ public class LoginScreen extends JPanel {
                 Arrays.fill(pw, '\0'); // wipe char[] litt ryddigere
 
                 try {
-                    get(); // kaster hvis doInBackground feilet
+                    get();
                     view.showMain();
                 } catch (Exception ex) {
-                    // her burde du vise en kort melding, ikke stacktrace
-                    statusLabel.setText(ex.getMessage() != null ? ex.getMessage() : "Login failed.");
+                    System.out.println(ex.getMessage());
+                    statusLabel.setText("Login failed.");
                 }
             }
         };
