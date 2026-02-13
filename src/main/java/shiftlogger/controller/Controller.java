@@ -1,12 +1,12 @@
-package controller;
+package shiftlogger.controller;
 
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
-import model.TimeEntry;
-import service.TimeService;
+import shiftlogger.service.TimeService;
+import shiftlogger.model.TimeEntry;
 
 
 

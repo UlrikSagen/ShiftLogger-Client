@@ -1,10 +1,12 @@
-package view;
+package shiftlogger.view;
 
-import controller.Controller;
-import view.screens.*;
-import view.util.TrayManager;
+import shiftlogger.view.screens.*;
+import shiftlogger.view.util.TrayManager;
 
 import javax.swing.*;
+
+import shiftlogger.controller.Controller;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.CardLayout;
@@ -51,7 +53,7 @@ public class MainView extends JFrame{
         overviewScreen = new OverviewScreen(this, controller);
         manualEntryScreen = new ManualEntryScreen(this, controller);
 
-        //root.add(new SplashScreen(this), "start");
+        root.add(new LoginScreen(this, controller), "start");
         root.add(new MainScreen(this, controller), "main");
         root.add(overviewScreen, "overview");
         root.add(manualEntryScreen, "manualentry");

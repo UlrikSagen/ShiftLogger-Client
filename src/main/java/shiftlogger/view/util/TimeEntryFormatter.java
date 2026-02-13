@@ -1,11 +1,12 @@
-package view.util;
+package shiftlogger.view.util;
 
 import java.time.format.DateTimeFormatter;
+
+import shiftlogger.model.TimeEntry;
+
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
-
-import model.TimeEntry;
 
 public class TimeEntryFormatter {
 

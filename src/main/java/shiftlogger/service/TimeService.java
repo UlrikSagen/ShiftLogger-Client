@@ -1,4 +1,4 @@
-package service;
+package shiftlogger.service;
 
 import java.time.Duration;
 import java.time.LocalDate;
@@ -6,9 +6,9 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.Contract;
-import model.TimeEntry;
-import storage.TimeRepository;
+import shiftlogger.model.Contract;
+import shiftlogger.model.TimeEntry;
+import shiftlogger.storage.TimeRepository;
 
 
 public class TimeService {
@@ -22,7 +22,6 @@ public class TimeService {
         this.entries = repo.loadEntries();
         this.contract = repo.loadContract();
     }
-    
 
     public List <TimeEntry> getEntries(){
         return List.copyOf(this.entries);

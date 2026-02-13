@@ -1,9 +1,9 @@
-package service;
+package shiftlogger.service;
 import java.time.Duration;
 import java.util.List;
 
-import model.Contract;
-import model.TimeEntry;
+import shiftlogger.model.Contract;
+import shiftlogger.model.TimeEntry;
 
 
 public class TimeCalculator {
@@ -32,10 +32,10 @@ public class TimeCalculator {
     }
 
     public static float calculateSalary(List<TimeEntry> entries, Contract contract, Duration overTime){
-        float salary = contract.getSalary();
+        float salary = contract.salary();
         float totalMinutes = getTotalMinutes(entries);
         float overtimeHours = overTime.toMinutes()/60.0f;
-        float overTimeSalary =  overtimeHours * salary * contract.getOvertimeFactor();
+        float overTimeSalary =  overtimeHours * salary * contract.overtimeFactor();
         float totalSalary = overTimeSalary + ((totalMinutes * salary)/60);  
 
 
@@ -43,9 +43,9 @@ public class TimeCalculator {
     }
 
     public static float calculateOvertimeSalary(Contract contract, Duration overTime){
-        float salary = contract.getSalary();
+        float salary = contract.salary();
         float overtimeHours = overTime.toMinutes()/60.0f;
-        float overTimeSalary =  overtimeHours * salary * contract.getOvertimeFactor();
+        float overTimeSalary =  overtimeHours * salary * contract.overtimeFactor();
         return overTimeSalary;
     }    
 }

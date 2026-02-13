@@ -1,4 +1,4 @@
-package view.screens;
+package shiftlogger.view.screens;
 
 import java.awt.Component;
 import java.time.LocalDate;
@@ -18,9 +18,9 @@ import com.github.lgooddatepicker.components.DatePickerSettings;
 import com.github.lgooddatepicker.components.TimePicker;
 import com.github.lgooddatepicker.components.TimePickerSettings;
 
-import controller.Controller;
-import view.MainView;
-import view.util.*;
+import shiftlogger.controller.Controller;
+import shiftlogger.view.MainView;
+import shiftlogger.view.util.*;
 
 public class ManualEntryScreen extends JPanel{
     private final Controller controller;

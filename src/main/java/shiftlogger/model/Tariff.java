@@ -1,4 +1,4 @@
-package model;
+package shiftlogger.model;
 
 
 public class Tariff {

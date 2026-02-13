@@ -1,9 +1,9 @@
-package view.util;
+package shiftlogger.view.util;
 
 import java.awt.SystemTray;
 import java.awt.TrayIcon;
 
-import view.MainView;
+import shiftlogger.view.MainView;
 
 import java.awt.PopupMenu;
 import java.awt.MenuItem;

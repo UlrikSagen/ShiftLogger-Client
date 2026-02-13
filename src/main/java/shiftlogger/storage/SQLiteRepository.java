@@ -1,13 +1,13 @@
-package storage;
-
-import model.Contract;
-import model.TimeEntry;
+package shiftlogger.storage;
 
 import java.nio.file.*;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
+
+import shiftlogger.model.Contract;
+import shiftlogger.model.TimeEntry;
 
 public class SQLiteRepository implements TimeRepository {
 

@@ -1,4 +1,4 @@
-package model;
+package shiftlogger.model;
 
 import java.time.LocalDate;
 import java.time.LocalTime;

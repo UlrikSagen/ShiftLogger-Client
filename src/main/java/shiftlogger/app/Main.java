@@ -1,4 +1,4 @@
-package app;
+package shiftlogger.app;
 
 import java.nio.file.Path;
 
@@ -6,18 +6,19 @@ import javax.swing.SwingUtilities;
 
 import com.formdev.flatlaf.FlatDarkLaf;
 
-import controller.Controller;
-import service.TimeService;
-import storage.TimeRepository;
-import view.MainView;
-import view.util.AppTheme;
-import storage.SQLiteRepository;
+import shiftlogger.service.AuthService;
+import shiftlogger.service.TimeService;
+import shiftlogger.controller.Controller;
+import shiftlogger.view.MainView;
+import shiftlogger.view.util.AppTheme;
+import shiftlogger.storage.*;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception{
         FlatDarkLaf.setup();
         AppTheme.apply();
-        
+        AuthService aService = new AuthService();
+        aService.login("Ulle", "heiheihei");
         SwingUtilities.invokeLater(() -> {
             Path dbPath = Path.of(System.getProperty("user.home"), ".timetracker", "timetracker.db");
             TimeRepository repo = new SQLiteRepository(dbPath);

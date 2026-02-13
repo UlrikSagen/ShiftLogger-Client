@@ -1,4 +1,4 @@
-package storage;
+package shiftlogger.storage;
 
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -13,8 +13,8 @@ import java.util.List;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 
-import model.Contract;
-import model.TimeEntry;
+import shiftlogger.model.Contract;
+import shiftlogger.model.TimeEntry;
 
 
 public class CSVRepository implements TimeRepository{

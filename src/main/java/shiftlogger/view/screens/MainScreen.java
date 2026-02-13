@@ -1,4 +1,4 @@
-package view.screens;
+package shiftlogger.view.screens;
 
 import java.awt.Component;
 import java.awt.Dimension;
@@ -16,9 +16,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import controller.Controller;
-import view.MainView;
-import view.util.AppTheme;
+import shiftlogger.controller.Controller;
+import shiftlogger.view.MainView;
+import shiftlogger.view.util.AppTheme;
 
 public class MainScreen extends JPanel {
 

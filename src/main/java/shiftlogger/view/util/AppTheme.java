@@ -1,4 +1,4 @@
-package view.util;
+package shiftlogger.view.util;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -22,6 +22,7 @@ public final class AppTheme {
     public static final Color BG            = new Color(0x141414);
     public static final Color BG_2          = new Color(0x1F1F1F);
     public static final Color BG_3          = new Color(0x2A2A2A);
+    public static final Color CARD_BG       = new Color(0x1F1F1F);
 
     public static final Color TEXT          = new Color(0xD3D3D3);
     public static final Color TEXT_MUTED    = new Color(0x7F7F7F);
@@ -303,6 +304,17 @@ public final class AppTheme {
         ta.setSelectionColor(tint(PRIMARY, 0.25f));
         ta.setSelectedTextColor(TEXT);
         ta.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(BORDER, 1, true),
+                BorderFactory.createEmptyBorder(8, 10, 8, 10)
+        ));
+    }
+    public static void styleTextField(JTextField tf) {
+        tf.setBackground(BG_2);
+        tf.setForeground(TEXT);
+        tf.setCaretColor(TEXT);
+        tf.setSelectionColor(tint(PRIMARY, 0.25f));
+        tf.setSelectedTextColor(TEXT);
+        tf.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(BORDER, 1, true),
                 BorderFactory.createEmptyBorder(8, 10, 8, 10)
         ));

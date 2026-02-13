@@ -1,9 +1,9 @@
-package storage;
+package shiftlogger.storage;
 
 import java.util.List;
 
-import model.Contract;
-import model.TimeEntry;
+import shiftlogger.model.Contract;
+import shiftlogger.model.TimeEntry;
 
 public interface TimeRepository {
 

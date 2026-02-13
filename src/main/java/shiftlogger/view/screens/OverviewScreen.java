@@ -139,7 +139,6 @@ public class OverviewScreen extends JPanel{
         view.showMain();
     }
 
-
     private int getMonth(){
         switch((String) monthList.getSelectedItem()){
             case "Januar": return  1;
