@@ -31,6 +31,8 @@ public class MainView extends JFrame{
 
     private OverviewScreen overviewScreen;
     private ManualEntryScreen manualEntryScreen;
+    private LoginScreen loginScreen;
+    private RegisterScreen registerScreen;
 
     public MainView(Controller controller) {
         cards = new CardLayout();
@@ -52,8 +54,12 @@ public class MainView extends JFrame{
 
         overviewScreen = new OverviewScreen(this, controller);
         manualEntryScreen = new ManualEntryScreen(this, controller);
+        loginScreen = new LoginScreen(this, controller);
+        registerScreen = new RegisterScreen(this, controller);
+        
 
-        root.add(new LoginScreen(this, controller), "start");
+        root.add(loginScreen, "login");
+        root.add(registerScreen, "register");
         root.add(new MainScreen(this, controller), "main");
         root.add(overviewScreen, "overview");
         root.add(manualEntryScreen, "manualentry");
@@ -73,6 +79,18 @@ public class MainView extends JFrame{
         cards.show(root, "overview");
     }
 
+    public void showLogin(){
+        cards.show(root, "login");
+    }
+    public void showLogin(String status, Color color){
+        loginScreen.setStatus(status, color);
+        cards.show(root, "login");
+    }
+    
+    public void showRegister(){
+        registerScreen.refresh();
+        cards.show(root, "register");
+    }
     public void showManualEntry(){
         manualEntryScreen.refresh();
         cards.show(root, "manualentry");

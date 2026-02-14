@@ -11,7 +11,7 @@ import javax.swing.event.HyperlinkEvent;
 import java.awt.*;
 import java.util.Arrays;
 
-public class LoginScreen extends JPanel {
+public class RegisterScreen extends JPanel {
 
     private final MainView view;
     private final Controller controller;
@@ -19,11 +19,11 @@ public class LoginScreen extends JPanel {
     private final JTextField usernameField = new JTextField();
     private final JPasswordField passwordField = new JPasswordField();
 
-    private final JButton loginButton = new JButton("Log in");
-    private final JButton exitButton = new JButton("Exit");
-    private final JLabel statusLabel = new JLabel(" "); // plassholder for feil/status
+    private final JButton registerButton = new JButton("Register");
+    private final JButton backButton = new JButton("back");
+    private final JLabel statusLabel = new JLabel(" ");
 
-    public LoginScreen(MainView view, Controller controller) {
+    public RegisterScreen(MainView view, Controller controller) {
         this.view = view;
         this.controller = controller;
 
@@ -55,7 +55,7 @@ public class LoginScreen extends JPanel {
         card.add(Box.createVerticalStrut(18));
 
         // Tittel
-        JLabel title = new JLabel("Welcome");
+        JLabel title = new JLabel("Register new user:");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
         title.setFont(new Font("Inter", Font.BOLD, 20));
         title.setForeground(AppTheme.TEXT);
@@ -85,25 +85,15 @@ public class LoginScreen extends JPanel {
         card.add(form);
 
         //Subtitle
-        // 1. Opprett JEditorPane
-        JEditorPane editorPane = new JEditorPane();
-        editorPane.setContentType("text/html");
-        editorPane.setEditable(false);
-        editorPane.setOpaque(false);
-        editorPane.setBackground(AppTheme.BG); 
-        editorPane.setFont(AppTheme.FONT_SUBTITLE);
-
-        editorPane.setText("<html><body> " +
-                            "Dont have a user? <a href='register'>Click here</a> to create one" +
-                            "</body></html>");
-        editorPane.addHyperlinkListener(e -> {
-            if (HyperlinkEvent.EventType.ACTIVATED.equals(e.getEventType())) {
-                if ("register".equals(e.getDescription())) {
-                    view.showRegister();
-                }
-            }
-        });
-        card.add(editorPane);
+        JEditorPane subtitle = new JEditorPane();
+        subtitle.setContentType("text/html");
+        subtitle.setEditable(false);
+        subtitle.setOpaque(false);
+        subtitle.setFocusable(false);
+        subtitle.setBackground(AppTheme.BG); 
+        subtitle.setFont(AppTheme.FONT_SUBTITLE);
+        subtitle.setText("\u00A0");
+        card.add(subtitle);
         card.add(Box.createVerticalStrut(14));
 
         // Status (feil/info)
@@ -119,11 +109,11 @@ public class LoginScreen extends JPanel {
         buttons.setOpaque(false);
         buttons.setMaximumSize(new Dimension(260, 40));
 
-        AppTheme.stylePrimaryButton(loginButton);
-        AppTheme.styleMenuButton(exitButton);
+        AppTheme.stylePrimaryButton(registerButton);
+        AppTheme.styleMenuButton(backButton);
 
-        buttons.add(loginButton);
-        buttons.add(exitButton);
+        buttons.add(registerButton);
+        buttons.add(backButton);
 
         card.add(buttons);
 
@@ -168,14 +158,14 @@ public class LoginScreen extends JPanel {
     }
 
     private void wireActions() {
-        exitButton.addActionListener(e -> view.exit());
+        backButton.addActionListener(e -> view.showLogin(" ", AppTheme.ERROR));
 
-        passwordField.addActionListener(e -> login());
+        passwordField.addActionListener(e -> register());
         usernameField.addActionListener(e -> passwordField.requestFocusInWindow());
-        loginButton.addActionListener(e -> login());
+        registerButton.addActionListener(e -> register());
     }
 
-    private void login() {
+    private void register() {
         setBusy(true);
         statusLabel.setText(" ");
 
@@ -192,13 +182,16 @@ public class LoginScreen extends JPanel {
             statusLabel.setText("Please enter password");
             setBusy(false);
             return;
+        }else if(password.length() < 8){
+            statusLabel.setText("Password must be at least 8 characters long");
+            setBusy(false);
         }
 
         SwingWorker<Void, Void> worker = new SwingWorker<>() {
             @Override protected Void doInBackground() throws Exception {
                 
                 try{
-                    controller.login(username, password);
+                    controller.register(username, password);
                 } catch (RuntimeException e){
                     throw new RuntimeException();
                 }
@@ -208,13 +201,18 @@ public class LoginScreen extends JPanel {
             @Override protected void done() {
                 setBusy(false);
                 Arrays.fill(pw, '\0');
-
+                
                 try {
                     get();
-                    view.showMain();
+                    view.showLogin("User Registered!", AppTheme.SUCCESS);
                 } catch (Exception ex) {
                     System.out.println(ex.getMessage());
-                    statusLabel.setText("Login failed.");
+                    if (ex.getMessage().contains("exists")){
+                        statusLabel.setText("Username allready taken");
+                    }
+                    else{
+                        //statusLabel.setText("Register failed.");
+                    }
                 }
             }
         };
@@ -223,17 +221,15 @@ public class LoginScreen extends JPanel {
     }
 
     private void setBusy(boolean busy) {
-        loginButton.setEnabled(!busy);
-        exitButton.setEnabled(!busy);
+        registerButton.setEnabled(!busy);
+        backButton.setEnabled(!busy);
         usernameField.setEnabled(!busy);
         passwordField.setEnabled(!busy);
-        loginButton.setText(busy ? "Logging in..." : "Log in");
+        registerButton.setText(busy ? "Registering..." : "Register");
     }
 
-    public void setStatus(String status, Color color){
+    public void refresh(){
         usernameField.setText("");
         passwordField.setText("");
-        this.statusLabel.setForeground(color);
-        this.statusLabel.setText(status);
     }
 }

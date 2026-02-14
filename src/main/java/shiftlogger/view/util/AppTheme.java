@@ -34,11 +34,14 @@ public final class AppTheme {
     public static final Color FOCUS         = PRIMARY;
 
     public static final Color ERROR         = new Color(0xD04F4F);
+    public static final Color SUCCESS       = new Color(0x008000);
+
     public static final Color WARNING       = new Color(0xD0A94F);
     public static final Color INFO          = new Color(0x4F86D0);
 
     // ===== Typography =====
     public static final Font FONT_BASE      = new Font("Inter", Font.PLAIN, 14);
+    public static final Font FONT_SUBTITLE      = new Font("Inter", Font.PLAIN, 12);
     public static final Font FONT_BIG_BUTTON      = new Font("Inter", Font.BOLD, 15);
     public static final Font FONT_TITLE     = new Font("Inter", Font.BOLD, 18);
     public static final Font FONT_MONO      = new Font(Font.MONOSPACED, Font.PLAIN, 13);
