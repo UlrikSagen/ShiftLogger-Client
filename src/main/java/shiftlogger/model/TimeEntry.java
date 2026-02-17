@@ -13,4 +13,4 @@ public record TimeEntry(
         LocalTime end,
         OffsetDateTime createdAt,
         OffsetDateTime lastEdit
-    ) {}
+    ) {    }

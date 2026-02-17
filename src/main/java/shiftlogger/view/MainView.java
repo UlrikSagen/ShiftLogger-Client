@@ -60,11 +60,18 @@ public class MainView extends JFrame{
 
         root.add(loginScreen, "login");
         root.add(registerScreen, "register");
+    }
+
+    public void onLoginSuccess() {
+        overviewScreen = new OverviewScreen(this, controller);
+        manualEntryScreen = new ManualEntryScreen(this, controller);
+
         root.add(new MainScreen(this, controller), "main");
         root.add(overviewScreen, "overview");
         root.add(manualEntryScreen, "manualentry");
-    }
 
+        showMain();
+    }
     public void showUI() {
         setLocationRelativeTo(null);
         setVisible(true);

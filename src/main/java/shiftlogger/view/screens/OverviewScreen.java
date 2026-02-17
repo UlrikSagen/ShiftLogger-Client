@@ -69,8 +69,8 @@ public class OverviewScreen extends JPanel{
         entries.setFont(AppTheme.FONT_TITLE);
 
         //TEST FOR ENTRY PANEL
-        panelEntriesPanel.setEntriesForMonth(controller.getEntriesByMonth(getMonth(), getYear()));
-        panelEntriesPanel.setFocusable(false);
+        //panelEntriesPanel.setEntriesForMonth(controller.getEntriesByMonth(getMonth(), getYear()));
+        //panelEntriesPanel.setFocusable(false);
 
         //HOURS WORKED LABEL
         hoursWorked.setText(TimeEntryFormatter.hoursWorked(controller.getMinutesByMonth(getMonth(), getYear())));

@@ -7,8 +7,8 @@ import java.util.List;
 
 import shiftlogger.service.TimeService;
 import shiftlogger.service.AuthService;
-import shiftlogger.model.LegacyTimeEntry;
 import shiftlogger.model.TimeEntry;
+import shiftlogger.model.User;
 
 public class Controller {
     
@@ -82,13 +82,9 @@ public class Controller {
         return authService.registerUser(username, pwd);
     }
 
-    public void login(String username, String pwd){
-        try{
-            service.setUser(authService.login(username, pwd));
-        } catch(Exception e){
-            System.out.println(e.getMessage());
-            throw new RuntimeException("Could not log in");
-        }
+    public void login(String username, String pwd) throws Exception {
+        User user = authService.login(username, pwd);
+        service.init(user);
     }
 }
 

@@ -10,7 +10,6 @@ import shiftlogger.controller.Controller;
 import shiftlogger.http.ApiClient;
 import shiftlogger.view.MainView;
 import shiftlogger.view.util.AppTheme;
-import shiftlogger.storage.*;
 
 public class Main {
     public static void main(String[] args) throws Exception{
@@ -18,11 +17,11 @@ public class Main {
         AppTheme.apply();
         SwingUtilities.invokeLater(() -> {
             try{
-                Controller controller = new Controller(new TimeService(new SQLiteRepository(), new ApiClient()), new AuthService());
+                Controller controller = new Controller(new TimeService(new ApiClient()), new AuthService());
                 new MainView(controller).showUI();
 
             }catch(Exception e){
-                System.out.println(e.getMessage());
+                System.out.println(e.getMessage() + "hei");
             }
         });
     }

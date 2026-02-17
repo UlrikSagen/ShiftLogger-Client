@@ -199,6 +199,7 @@ public class LoginScreen extends JPanel {
                 
                 try{
                     controller.login(username, password);
+                    view.onLoginSuccess();
                 } catch (RuntimeException e){
                     throw new RuntimeException();
                 }

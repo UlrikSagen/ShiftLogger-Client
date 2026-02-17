@@ -1,10 +1,5 @@
 package shiftlogger.service;
 
-import javax.management.RuntimeErrorException;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import shiftlogger.http.ApiClient;
 import shiftlogger.http.ApiClient.LoginResponse;
 import shiftlogger.model.User;
@@ -15,6 +10,7 @@ public class AuthService {
     public AuthService(){
         this.client = new ApiClient();
     }
+
     public boolean registerUser(String username, String pwd){
         try{
             client.registerRequest(username, pwd);

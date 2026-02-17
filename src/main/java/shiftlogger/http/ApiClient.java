@@ -1,5 +1,6 @@
 package shiftlogger.http;
 
+import java.util.List;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.net.http.HttpClient;
@@ -25,6 +26,7 @@ public class ApiClient {
     private final HttpClient client = HttpClient.newHttpClient();
     private String BASE_ADDR;
     private ObjectMapper objectMapper = new ObjectMapper();
+    private String token;
 
     public ApiClient(){
         this.BASE_ADDR = "http://100.99.33.100/api";
@@ -70,7 +72,7 @@ public class ApiClient {
         return resp;
     }
 
-    public TimeEntry getEntry(Optional<LocalDate> from, Optional<LocalDate> to) throws Exception{
+    public List<TimeEntry> getEntry(Optional<LocalDate> from, Optional<LocalDate> to) throws Exception{
         String url = "";
         if (from.isPresent() && to.isPresent()) {
             // LocalDate -> "YYYY-MM-DD" via toString()
@@ -81,7 +83,8 @@ public class ApiClient {
         }
         HttpRequest req = HttpRequest.newBuilder()
                 .uri(URI.create(BASE_ADDR + "/entries" + url))
-                .header("Content-Type", "application/json")
+                .header("Authorization", "Bearer " + token)
+                .header("Accept", "application/json")
                 .GET()
                 .build();   
         
@@ -90,7 +93,7 @@ public class ApiClient {
         if (res.statusCode() != 200) {
             throw new RuntimeException("feilet: " + res.statusCode() + res.body() + "\n");
         }
-        TimeEntry resp = objectMapper.readValue(res.body(), TimeEntry.class);
+        List<TimeEntry> resp = objectMapper.readValue(res.body(), objectMapper.getTypeFactory().constructCollectionType(List.class, TimeEntry.class));
         return resp;
     }
 
@@ -112,6 +115,10 @@ public class ApiClient {
         }
         TimeEntry resp = objectMapper.readValue(res.body(), TimeEntry.class);
         return resp;
+    }
+
+    public void setToken(String token){
+        this.token = token;
     }
 
     public record LoginResponse(String username, String token, Contract contract, Settings settings){}

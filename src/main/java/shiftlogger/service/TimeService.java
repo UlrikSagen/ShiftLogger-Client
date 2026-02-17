@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import shiftlogger.http.ApiClient;
@@ -18,24 +19,21 @@ import shiftlogger.storage.TimeRepository;
 
 public class TimeService {
 
-    private final TimeRepository repo;
     private Contract contract;
     private List<TimeEntry> entries;
     private final ApiClient api;
-    private final SyncService sync;
     private User user;
     
 
-    public TimeService(TimeRepository repo, ApiClient api)throws Exception{
-        this.sync = new SyncService(repo, api);
-        this.repo = repo;
+    public TimeService(ApiClient api){
         this.api = api;
-        sync.syncOffline(repo.loadEntries());
-        this.contract = repo.loadContract();
     }
 
-    public void setUser(User user){
+    public void init(User user) throws Exception{
         this.user = user;
+        this.api.setToken(user.token());
+        this.entries = api.getEntry(Optional.empty(), Optional.empty());
+        this.contract = user.contract();
     }
 
     public List<TimeEntry> getEntries(){
