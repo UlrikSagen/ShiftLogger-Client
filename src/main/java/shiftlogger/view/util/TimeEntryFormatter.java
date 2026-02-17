@@ -14,7 +14,7 @@ public class TimeEntryFormatter {
     private static final DateTimeFormatter TIME = DateTimeFormatter.ofPattern("HH:mm");
 
     public static String entryToString(TimeEntry entry){
-        return entry.getDate() + ":   " + entry.getStart() + "  -   " + entry.getEnd();
+        return entry.date() + ":   " + entry.start() + "  -   " + entry.end();
     }
 
     public static String hoursWorked(int totalMinutes){

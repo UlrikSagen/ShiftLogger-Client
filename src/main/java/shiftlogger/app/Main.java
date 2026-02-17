@@ -1,7 +1,5 @@
 package shiftlogger.app;
 
-import java.nio.file.Path;
-
 import javax.swing.SwingUtilities;
 
 import com.formdev.flatlaf.FlatDarkLaf;
@@ -9,6 +7,7 @@ import com.formdev.flatlaf.FlatDarkLaf;
 import shiftlogger.service.AuthService;
 import shiftlogger.service.TimeService;
 import shiftlogger.controller.Controller;
+import shiftlogger.http.ApiClient;
 import shiftlogger.view.MainView;
 import shiftlogger.view.util.AppTheme;
 import shiftlogger.storage.*;
@@ -18,10 +17,13 @@ public class Main {
         FlatDarkLaf.setup();
         AppTheme.apply();
         SwingUtilities.invokeLater(() -> {
-            Path dbPath = Path.of(System.getProperty("user.home"), ".timetracker", "timetracker.db");
-            TimeRepository repo = new SQLiteRepository(dbPath);
-            Controller controller = new Controller(new TimeService(repo), new AuthService());
-            new MainView(controller).showUI();
+            try{
+                Controller controller = new Controller(new TimeService(new SQLiteRepository(), new ApiClient()), new AuthService());
+                new MainView(controller).showUI();
+
+            }catch(Exception e){
+                System.out.println(e.getMessage());
+            }
         });
     }
 }

@@ -10,7 +10,7 @@ public class TimeCalculator {
     public static int getTotalMinutes(List<TimeEntry> entries){
         int totalMinutes = 0;
         for (TimeEntry entry : entries) {
-            Duration duration = calculateBreak(Duration.between(entry.getStart(), entry.getEnd()));
+            Duration duration = calculateBreak(Duration.between(entry.start(), entry.end()));
             totalMinutes += duration.toMinutes();
         }
         return totalMinutes;

@@ -5,10 +5,15 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
+import shiftlogger.http.ApiClient;
 import shiftlogger.model.Contract;
 import shiftlogger.model.TimeEntry;
+import shiftlogger.model.TimeEntry;
+import shiftlogger.model.User;
 import shiftlogger.storage.TimeRepository;
+
 
 
 public class TimeService {
@@ -16,36 +21,29 @@ public class TimeService {
     private final TimeRepository repo;
     private Contract contract;
     private List<TimeEntry> entries;
+    private final ApiClient api;
+    private final SyncService sync;
+    private User user;
+    
 
-    public TimeService(TimeRepository repo){
+    public TimeService(TimeRepository repo, ApiClient api)throws Exception{
+        this.sync = new SyncService(repo, api);
         this.repo = repo;
-        this.entries = repo.loadEntries();
+        this.api = api;
+        sync.syncOffline(repo.loadEntries());
         this.contract = repo.loadContract();
     }
 
-    public List <TimeEntry> getEntries(){
+    public void setUser(User user){
+        this.user = user;
+    }
+
+    public List<TimeEntry> getEntries(){
         return List.copyOf(this.entries);
     }
     //method for adding or editing entry
-    public void addOrEdit(LocalDate date, LocalTime start, LocalTime end){
-
-        List<TimeEntry> out = new ArrayList<>();
-        boolean replaced = false;
-
-        for (TimeEntry entry : this.entries) {
-            if (entry.getDate().equals(date)){
-                out.add(new TimeEntry(date, start.withSecond(0).withNano(0), end.withSecond(0).withNano(0)));
-                replaced = true;
-            } else {
-                out.add(entry);
-            }
-        }
-
-        if (!replaced) {
-            out.add(new TimeEntry(date, start.withSecond(0).withNano(0), end.withSecond(0).withNano(0)));
-        }
-        this.entries = out;
-        saveEntries();
+    public void addOrEdit(LocalDate date, LocalTime start, LocalTime end) throws Exception{
+        api.postEntry(date, start, end);
     }
 
     //method for deleting entry by date
@@ -53,12 +51,11 @@ public class TimeService {
         List<TimeEntry> out = new ArrayList<>();
 
         for (TimeEntry entry : this.entries) {
-            if (!entry.getDate().equals(date)){
+            if (!entry.date().equals(date)){
                 out.add(entry);
             }
         }
         this.entries = out;
-        saveEntries();
     }
 
     //method for calculating total minutes from list of entries
@@ -74,7 +71,7 @@ public class TimeService {
     public List<TimeEntry> filterByMonth(int month, int year){
         List<TimeEntry> filtered = new ArrayList<>();
         for (TimeEntry entry : this.entries) {
-            if (entry.getDate().getMonthValue() == month && entry.getDate().getYear() == year) {
+            if (entry.date().getMonthValue() == month && entry.date().getYear() == year) {
                 filtered.add(entry);
             }
         }
@@ -85,7 +82,7 @@ public class TimeService {
     public List<TimeEntry> filterByYear(int year){
         List<TimeEntry> filtered = new ArrayList<>();
         for (TimeEntry entry : this.entries) {
-            if (entry.getDate().getYear() == year) {
+            if (entry.date().getYear() == year) {
                 filtered.add(entry);
             }
         }
@@ -95,7 +92,7 @@ public class TimeService {
 
 
     public long getMinutesByEntry(TimeEntry entry){
-        return TimeCalculator.calculateBreak(Duration.between(entry.getStart(), entry.getEnd())).toMinutes();
+        return TimeCalculator.calculateBreak(Duration.between(entry.start(), entry.end())).toMinutes();
     }
 
     //method for calculating total salary
@@ -136,14 +133,10 @@ public class TimeService {
         return overTimeSalary;
     }
 
-    public void saveEntries(){
-        repo.saveEntries(this.entries);
-    }
-
     public Duration getOvertime(int month, int year){
         Duration totalOvertime = Duration.ZERO;
         for (TimeEntry entry : filterByMonth(month, year)){
-            totalOvertime = totalOvertime.plus(TimeCalculator.calculateOvertimeHours(Duration.between(entry.getStart(), entry.getEnd())));
+            totalOvertime = totalOvertime.plus(TimeCalculator.calculateOvertimeHours(Duration.between(entry.start(), entry.end())));
         }
         return totalOvertime;
     }
@@ -151,7 +144,7 @@ public class TimeService {
     public Duration getOvertime(int year){
         Duration totalOvertime = Duration.ZERO;
         for (TimeEntry entry : filterByYear(year)){
-            totalOvertime = totalOvertime.plus(TimeCalculator.calculateOvertimeHours(Duration.between(entry.getStart(), entry.getEnd())));
+            totalOvertime = totalOvertime.plus(TimeCalculator.calculateOvertimeHours(Duration.between(entry.start(), entry.end())));
         }
         return totalOvertime;
     }
@@ -159,7 +152,7 @@ public class TimeService {
     public Duration getOvertime(){
         Duration totalOvertime = Duration.ZERO;
         for (TimeEntry entry : this.entries){
-            totalOvertime = totalOvertime.plus(TimeCalculator.calculateOvertimeHours(Duration.between(entry.getStart(), entry.getEnd())));
+            totalOvertime = totalOvertime.plus(TimeCalculator.calculateOvertimeHours(Duration.between(entry.start(), entry.end())));
         }
         return totalOvertime;
     }

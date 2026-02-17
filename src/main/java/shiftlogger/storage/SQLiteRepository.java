@@ -7,14 +7,17 @@ import java.time.LocalTime;
 import java.util.*;
 
 import shiftlogger.model.Contract;
+import shiftlogger.model.LegacyTimeEntry;
 import shiftlogger.model.TimeEntry;
 
 public class SQLiteRepository implements TimeRepository {
 
     private final String url;
     private final ContractLoader contractLoader = new ContractLoader();
+    private final Path dbPath = Path.of(System.getProperty("user.home"), ".timetracker", "timetracker.db");
 
-    public SQLiteRepository(Path dbPath) {
+
+    public SQLiteRepository() {
         this.url = "jdbc:sqlite:" + dbPath.toAbsolutePath();
         try {
             Path parent = dbPath.getParent();
@@ -46,9 +49,9 @@ public class SQLiteRepository implements TimeRepository {
     }
 
     @Override
-    public List<TimeEntry> loadEntries() {
+    public List<LegacyTimeEntry> loadEntries() {
         String sql = "SELECT id, date, start_time, end_time FROM time_entries ORDER BY date";
-        List<TimeEntry> out = new ArrayList<>();
+        List<LegacyTimeEntry> out = new ArrayList<>();
 
         try (Connection c = connect();
              PreparedStatement ps = c.prepareStatement(sql);
@@ -59,7 +62,7 @@ public class SQLiteRepository implements TimeRepository {
                 LocalDate date = LocalDate.parse(rs.getString("date"));
                 LocalTime start = LocalTime.parse(rs.getString("start_time"));
                 LocalTime end = LocalTime.parse(rs.getString("end_time"));
-                out.add(new TimeEntry(id, date, start, end));
+                out.add(new LegacyTimeEntry(id, date, start, end));
             }
         } catch (SQLException e) {
             throw new RuntimeException("loadEntries feilet", e);
@@ -68,7 +71,7 @@ public class SQLiteRepository implements TimeRepository {
     }
 
     @Override
-    public void saveEntries(List<TimeEntry> entries) {
+    public void saveEntries(List<LegacyTimeEntry> entries) {
         // enkleste: overskriv alt (greit for nå)
         String deleteSql = "DELETE FROM time_entries";
         String upsertSql = """
@@ -88,11 +91,11 @@ public class SQLiteRepository implements TimeRepository {
             }
 
             try (PreparedStatement ps = c.prepareStatement(upsertSql)) {
-                for (TimeEntry e : entries) {
-                    ps.setString(1, e.getID().toString());
-                    ps.setString(2, e.getDate().toString());
-                    ps.setString(3, e.getStart().toString());
-                    ps.setString(4, e.getEnd().toString());
+                for (LegacyTimeEntry e : entries) {
+                    ps.setString(1, e.id().toString());
+                    ps.setString(2, e.date().toString());
+                    ps.setString(3, e.start().toString());
+                    ps.setString(4, e.end().toString());
                     ps.addBatch();
                 }
                 ps.executeBatch();

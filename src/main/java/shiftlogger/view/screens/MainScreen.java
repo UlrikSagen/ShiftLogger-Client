@@ -177,8 +177,11 @@ public class MainScreen extends JPanel {
         stopButton.setVisible(false);
         systemMessage.setText("Timer stopped");
         swingTimer.stop();
-
-        controller.addOrEditEntry(startDate, startTime, endTime);
+        try{
+            controller.addOrEditEntry(startDate, startTime, endTime);
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 
     private static String formatHMS(long totalSeconds){

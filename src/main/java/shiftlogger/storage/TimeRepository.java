@@ -3,6 +3,7 @@ package shiftlogger.storage;
 import java.util.List;
 
 import shiftlogger.model.Contract;
+import shiftlogger.model.LegacyTimeEntry;
 import shiftlogger.model.TimeEntry;
 
 public interface TimeRepository {
@@ -10,6 +11,6 @@ public interface TimeRepository {
     Contract loadContract();
     void saveContract(Contract contract);
     
-    List<TimeEntry> loadEntries();
-    void saveEntries(List<TimeEntry> entries);
+    List<LegacyTimeEntry> loadEntries();
+    void saveEntries(List<LegacyTimeEntry> entries);
 }

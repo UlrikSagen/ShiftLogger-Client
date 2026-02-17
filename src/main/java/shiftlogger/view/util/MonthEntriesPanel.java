@@ -84,9 +84,9 @@ public class MonthEntriesPanel extends JPanel {
         if (row < 0) return;
 
         TimeEntry entry = model.getEntryAt(row);
-        int ok = JOptionPane.showConfirmDialog(this, "Edit: " + entry.getDate() + " " + entry.getStart() + "-" + entry.getEnd(), "Bekreft endring", JOptionPane.YES_NO_OPTION);
+        int ok = JOptionPane.showConfirmDialog(this, "Edit: " + entry.date() + " " + entry.start() + "-" + entry.end(), "Bekreft endring", JOptionPane.YES_NO_OPTION);
         if (ok == JOptionPane.YES_OPTION){
-            view.showEditManualEntry(entry.getDate(), entry.getStart(), entry.getEnd());
+            view.showEditManualEntry(entry.date(), entry.start(), entry.end());
         }
     }
 
@@ -96,11 +96,11 @@ public class MonthEntriesPanel extends JPanel {
 
         TimeEntry entry = model.getEntryAt(row);
 
-        int ok = JOptionPane.showConfirmDialog(this, "Vil du slette denne oppførningen?     \n" + entry.getDate() + " (" + entry.getStart() + "-" + entry.getEnd() + ")", "Bekreft sletting", JOptionPane.YES_NO_OPTION);
+        int ok = JOptionPane.showConfirmDialog(this, "Vil du slette denne oppførningen?     \n" + entry.date() + " (" + entry.start() + "-" + entry.end() + ")", "Bekreft sletting", JOptionPane.YES_NO_OPTION);
 
         if (ok == JOptionPane.YES_OPTION) {
             model.removeAt(row);
-            controller.deleteEntry(entry.getDate());
+            controller.deleteEntry(entry.date());
         }
     }
 }

@@ -209,7 +209,11 @@ public class ManualEntryScreen extends JPanel{
         LocalTime start = getStartTime();
         LocalTime end = getEndTime();
         if(controller.validateEntry(date, start, end)){
-            controller.addOrEditEntry(date, start, end);
+            try{
+                controller.addOrEditEntry(date, start, end);
+            }catch(Exception e){
+                System.out.println(e.getMessage());
+            }
             systemMessage.setForeground(AppTheme.SECONDARY);
             systemMessage.setText("Entry submitted");
         }

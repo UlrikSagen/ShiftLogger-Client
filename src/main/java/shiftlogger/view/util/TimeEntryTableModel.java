@@ -41,9 +41,9 @@ public class TimeEntryTableModel extends AbstractTableModel {
     public Object getValueAt(int r, int c) {
         TimeEntry e = rows.get(r);
         return switch (c) {
-            case 0 -> TimeEntryFormatter.getDate(e.getDate());
-            case 1 -> TimeEntryFormatter.getTime(e.getStart());
-            case 2 -> TimeEntryFormatter.getTime(e.getEnd());
+            case 0 -> TimeEntryFormatter.getDate(e.date());
+            case 1 -> TimeEntryFormatter.getTime(e.start());
+            case 2 -> TimeEntryFormatter.getTime(e.end());
             case 3 -> formatDuration(controller.getMinutesByEntry(e));
             default -> "";
         };
