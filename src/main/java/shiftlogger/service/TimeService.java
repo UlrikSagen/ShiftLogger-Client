@@ -4,9 +4,13 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
+import org.w3c.dom.events.Event;
 
 import shiftlogger.http.ApiClient;
 import shiftlogger.model.Contract;
@@ -20,9 +24,9 @@ import shiftlogger.storage.TimeRepository;
 public class TimeService {
 
     private Contract contract;
-    private List<TimeEntry> entries;
     private final ApiClient api;
     private User user;
+    private List<TimeEntry> entries = new ArrayList<>();
     
 
     public TimeService(ApiClient api){
@@ -33,6 +37,7 @@ public class TimeService {
         this.user = user;
         this.api.setToken(user.token());
         this.entries = api.getEntry(Optional.empty(), Optional.empty());
+        this.entries.sort(Comparator.comparing(TimeEntry::date));
         this.contract = user.contract();
     }
 
@@ -40,16 +45,25 @@ public class TimeService {
         return List.copyOf(this.entries);
     }
     //method for adding or editing entry
-    public void addOrEdit(LocalDate date, LocalTime start, LocalTime end) throws Exception{
+    public void postEntry(LocalDate date, LocalTime start, LocalTime end) throws Exception{
         api.postEntry(date, start, end);
+        this.entries = api.getEntry(Optional.empty(), Optional.empty());
+        this.entries.sort(Comparator.comparing(TimeEntry::date));
     }
 
-    //method for deleting entry by date
-    public void deleteEntry(LocalDate date){
-        List<TimeEntry> out = new ArrayList<>();
+    public void updateEntry(UUID id, LocalDate date, LocalTime start, LocalTime end) throws Exception{
+        this.entries.removeIf(entry -> entry.id().equals(id));
+        this.entries.add(api.updateEntry(id, date, start, end));
+        //this.entries = api.getEntry(Optional.empty(), Optional.empty());
+        this.entries.sort(Comparator.comparing(TimeEntry::date));
+    }
 
+    //method for deleting entry by id.
+    public void deleteEntry(UUID id)throws Exception{
+        List<TimeEntry> out = new ArrayList<>();
+        api.deleteEntry(id);
         for (TimeEntry entry : this.entries) {
-            if (!entry.date().equals(date)){
+            if (!entry.id().equals(id)){
                 out.add(entry);
             }
         }

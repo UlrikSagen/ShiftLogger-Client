@@ -29,7 +29,7 @@ public class MainScreen extends JPanel {
     private final JLabel timerLabel = new JLabel("00:00:00");
     private final JButton startButton = new JButton("Start Timer");
     private final JButton stopButton = new JButton("Stop Timer");
-    private final JButton manualButton = new JButton("Add or Edit");
+    private final JButton manualButton = new JButton("Add Entry");
     private final JButton exitButton = new JButton("Exit");
     private final JButton overviewButton = new JButton("Overview");
     private final JButton settingsButton = new JButton("Settings");
@@ -178,7 +178,7 @@ public class MainScreen extends JPanel {
         systemMessage.setText("Timer stopped");
         swingTimer.stop();
         try{
-            controller.addOrEditEntry(startDate, startTime, endTime);
+            controller.postEntry(startDate, startTime, endTime);
         }catch(Exception e){
             System.out.println(e.getMessage());
         }

@@ -14,6 +14,7 @@ import java.awt.Font;
 import java.awt.Image;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.UUID;
 
 
 public class MainView extends JFrame{
@@ -103,9 +104,9 @@ public class MainView extends JFrame{
         cards.show(root, "manualentry");
     }
 
-    public void showEditManualEntry(LocalDate date, LocalTime start, LocalTime end){
+    public void showEditManualEntry(UUID id, LocalDate date, LocalTime start, LocalTime end){
         manualEntryScreen.refresh();
-        manualEntryScreen.editEntry(date, start, end);
+        manualEntryScreen.editEntry(id, date, start, end);
         cards.show(root, "manualentry");
     }
 

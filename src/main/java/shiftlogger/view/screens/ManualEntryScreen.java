@@ -4,6 +4,7 @@ import java.awt.Component;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Locale;
+import java.util.UUID;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -45,8 +46,10 @@ public class ManualEntryScreen extends JPanel{
     private final JLabel placeholder = new JLabel("Add or Edit");
     private final JLabel systemMessage = new JLabel(" ");
 
-    private final JButton enterButton = new JButton("Enter");
+    private final JButton enterButton = new JButton("Add new entry");
     private final JButton backButton = new JButton("Back");
+
+    private UUID id;
 
     public ManualEntryScreen(MainView view, Controller controller){
         this.controller = controller;
@@ -209,10 +212,18 @@ public class ManualEntryScreen extends JPanel{
         LocalTime start = getStartTime();
         LocalTime end = getEndTime();
         if(controller.validateEntry(date, start, end)){
-            try{
-                controller.addOrEditEntry(date, start, end);
-            }catch(Exception e){
-                System.out.println(e.getMessage());
+            if(id != null){
+                try{
+                    controller.updateEntry(id, date, start, end);
+                }catch(Exception e){
+                    System.out.println(e.getMessage());
+                }
+            }else{
+                try{
+                    controller.postEntry(date, start, end);
+                }catch(Exception e){
+                    System.out.println(e.getMessage());
+                }
             }
             systemMessage.setForeground(AppTheme.SECONDARY);
             systemMessage.setText("Entry submitted");
@@ -233,8 +244,13 @@ public class ManualEntryScreen extends JPanel{
     }
     public void refresh(){
         systemMessage.setText(" ");
+        id = null;
+        enterButton.setText("Add new entry");
     }
-    public void editEntry(LocalDate date, LocalTime start, LocalTime end){
+    public void editEntry(UUID id, LocalDate date, LocalTime start, LocalTime end){
+        systemMessage.setText(" ");
+        enterButton.setText("Edit Entry");
+        this.id = id;
         dp.setDate(date);
         tpStart.setTime(start);
         tpEnd.setTime(end);

@@ -86,11 +86,11 @@ public class MonthEntriesPanel extends JPanel {
         TimeEntry entry = model.getEntryAt(row);
         int ok = JOptionPane.showConfirmDialog(this, "Edit: " + entry.date() + " " + entry.start() + "-" + entry.end(), "Bekreft endring", JOptionPane.YES_NO_OPTION);
         if (ok == JOptionPane.YES_OPTION){
-            view.showEditManualEntry(entry.date(), entry.start(), entry.end());
+            view.showEditManualEntry(entry.id(), entry.date(), entry.start(), entry.end());
         }
     }
 
-    private void deleteSelected() {
+    private void deleteSelected(){
         int row = table.getSelectedRow();
         if (row < 0) return;
 
@@ -100,7 +100,11 @@ public class MonthEntriesPanel extends JPanel {
 
         if (ok == JOptionPane.YES_OPTION) {
             model.removeAt(row);
-            controller.deleteEntry(entry.date());
+            try{
+                controller.deleteEntry(entry.id());
+            }catch(Exception e){
+                
+            }
         }
     }
 }

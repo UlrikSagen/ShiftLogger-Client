@@ -9,7 +9,6 @@ import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.OffsetDateTime;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -25,7 +24,7 @@ public class ApiClient {
         
     private final HttpClient client = HttpClient.newHttpClient();
     private String BASE_ADDR;
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private ObjectMapper objectMapper = new ObjectMapper().registerModule(new com.fasterxml.jackson.datatype.jsr310.JavaTimeModule());
     private String token;
 
     public ApiClient(){
@@ -100,21 +99,55 @@ public class ApiClient {
     public TimeEntry postEntry(LocalDate date, LocalTime start, LocalTime end) throws Exception{
         String json = """
                 {"date": "%s", "start": "%s", "end": "%s"}
-                """;
+                """.formatted(date, start, end);
 
         HttpRequest req = HttpRequest.newBuilder()
                 .uri(URI.create(BASE_ADDR + "/entries"))
+                .header("Authorization", "Bearer " + token)
                 .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(json))
                 .build();   
         
         HttpResponse<String> res = client.send(req, HttpResponse.BodyHandlers.ofString());
 
-        if (res.statusCode() != 200) {
-            throw new RuntimeException("feilet: " + res.statusCode() + res.body() + "\n");
+        if (res.statusCode() != 201) {
+            throw new RuntimeException("post feilet: " + res.statusCode() + res.body() + "\n");
         }
         TimeEntry resp = objectMapper.readValue(res.body(), TimeEntry.class);
         return resp;
+    }
+
+    public TimeEntry updateEntry(UUID id, LocalDate date, LocalTime start, LocalTime end) throws Exception{
+        String json = """
+                {"date": "%s", "start": "%s", "end": "%s"}
+                """.formatted(date, start, end);
+
+        HttpRequest req = HttpRequest.newBuilder()
+                .uri(URI.create(BASE_ADDR + "/entries"+"/" + id.toString()))
+                .header("Authorization", "Bearer " + token)
+                .header("Content-Type", "application/json")
+                .PUT(HttpRequest.BodyPublishers.ofString(json))
+                .build();   
+        
+        HttpResponse<String> res = client.send(req, HttpResponse.BodyHandlers.ofString());
+
+        if (res.statusCode() != 200) {
+            throw new RuntimeException("post feilet: " + res.statusCode() + res.body() + "\n");
+        }
+        TimeEntry resp = objectMapper.readValue(res.body(), TimeEntry.class);
+        return resp;
+    }
+
+    public void deleteEntry(UUID id) throws Exception{
+
+        HttpRequest req = HttpRequest.newBuilder()
+                .uri(URI.create(BASE_ADDR + "/entries"+"/" + id.toString()))
+                .header("Authorization", "Bearer " + token)
+                .header("Content-Type", "application/json")
+                .DELETE()
+                .build();   
+        
+        HttpResponse<String> res = client.send(req, HttpResponse.BodyHandlers.ofString());
     }
 
     public void setToken(String token){

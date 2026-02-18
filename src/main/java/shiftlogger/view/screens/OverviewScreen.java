@@ -37,11 +37,11 @@ public class OverviewScreen extends JPanel{
     private final String[] months = {
         "Januar", "Februar", "Mars", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Desember"
     };
-    private final JComboBox<String[]> monthList = new JComboBox(months);
+    private final JComboBox<String> monthList = new JComboBox<>(months);
     private final String[] years = {
         "2025", "2026", "2027", "2028", "2029", "2030"
     };
-    private final JComboBox<String[]> yearList = new JComboBox(years);
+    private final JComboBox<String> yearList = new JComboBox<>(years);
 
     private final LocalDate currentDate = LocalDate.now();
     private final String currentYear = String.valueOf(currentDate.getYear());
@@ -69,8 +69,8 @@ public class OverviewScreen extends JPanel{
         entries.setFont(AppTheme.FONT_TITLE);
 
         //TEST FOR ENTRY PANEL
-        //panelEntriesPanel.setEntriesForMonth(controller.getEntriesByMonth(getMonth(), getYear()));
-        //panelEntriesPanel.setFocusable(false);
+        panelEntriesPanel.setEntriesForMonth(controller.getEntriesByMonth(getMonth(), getYear()));
+        panelEntriesPanel.setFocusable(false);
 
         //HOURS WORKED LABEL
         hoursWorked.setText(TimeEntryFormatter.hoursWorked(controller.getMinutesByMonth(getMonth(), getYear())));

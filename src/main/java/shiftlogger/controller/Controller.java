@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.UUID;
 
 import shiftlogger.service.TimeService;
 import shiftlogger.service.AuthService;
@@ -20,8 +21,12 @@ public class Controller {
         this.authService = authService;
     }
 
-    public void addOrEditEntry(LocalDate date, LocalTime start, LocalTime end) throws Exception {
-        service.addOrEdit(date, start, end);
+    public void postEntry(LocalDate date, LocalTime start, LocalTime end) throws Exception {
+        service.postEntry(date, start, end);
+    }
+
+    public void updateEntry(UUID id, LocalDate date, LocalTime start, LocalTime end) throws Exception {
+        service.updateEntry(id, date, start, end);
     }
 
     public List<TimeEntry> getEntriesByMonth(int month, int year) {
@@ -40,8 +45,8 @@ public class Controller {
         return (int)service.getMinutesByEntry(entry);
     }
 
-    public void deleteEntry(LocalDate date) {
-        service.deleteEntry(date);
+    public void deleteEntry(UUID id) throws Exception{
+        service.deleteEntry(id);
     }
 
     public String getDate(){
