@@ -37,6 +37,8 @@ public class TrayManager {
 
         MenuItem exitItem = new MenuItem("Avslutt");
         exitItem.addActionListener(e -> exit());
+        openItem.setFont(AppTheme.FONT_TITLE);
+        exitItem.setFont(AppTheme.FONT_TITLE);
 
         menu.add(openItem);
         menu.add(exitItem);

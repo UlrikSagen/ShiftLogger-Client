@@ -4,10 +4,21 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.FontUIResource;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import shiftlogger.model.Contract;
+
 import java.awt.*;
 import java.util.Enumeration;
+import java.util.Map;
+import java.util.stream.Collectors;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Central theme for the whole Swing app.
@@ -17,27 +28,29 @@ import java.awt.event.MouseEvent;
 public final class AppTheme {
 
     private AppTheme() {}
+    private static String path;
+    private static ObjectMapper objectMapper = new ObjectMapper();
 
     // ===== Your palette =====
-    public static final Color BG            = new Color(0x141414);
-    public static final Color BG_2          = new Color(0x1F1F1F);
-    public static final Color BG_3          = new Color(0x2A2A2A);
-    public static final Color CARD_BG       = new Color(0x1F1F1F);
+    public static Color BG            = new Color(0x141414);
+    public static Color BG_2          = new Color(0x1F1F1F);
+    public static Color BG_3          = new Color(0x2A2A2A);
+    public static Color CARD_BG       = new Color(0x1F1F1F);
 
-    public static final Color TEXT          = new Color(0xD3D3D3);
-    public static final Color TEXT_MUTED    = new Color(0x7F7F7F);
+    public static Color TEXT          = new Color(0xD3D3D3);
+    public static Color TEXT_MUTED    = new Color(0x7F7F7F);
 
-    public static final Color PRIMARY       = new Color(0x6B28C4); // purple
-    public static final Color SECONDARY     = new Color(0x2AA847); // green
+    public static Color PRIMARY       = new Color(0x6B28C4); // purple
+    public static Color SECONDARY     = new Color(0x2AA847); // green
 
-    public static final Color BORDER        = new Color(0x343434);
-    public static final Color FOCUS         = PRIMARY;
+    public static Color BORDER        = new Color(0x343434);
+    public static Color FOCUS         = PRIMARY;
 
-    public static final Color ERROR         = new Color(0xD04F4F);
-    public static final Color SUCCESS       = new Color(0x008000);
+    public static Color ERROR         = new Color(0xD04F4F);
+    public static Color SUCCESS       = new Color(0x008000);
 
-    public static final Color WARNING       = new Color(0xD0A94F);
-    public static final Color INFO          = new Color(0x4F86D0);
+    public static Color WARNING       = new Color(0xD0A94F);
+    public static Color INFO          = new Color(0x4F86D0);
 
     // ===== Typography =====
     public static final Font FONT_BASE      = new Font("Inter", Font.PLAIN, 14);
@@ -47,25 +60,56 @@ public final class AppTheme {
     public static final Font FONT_MONO      = new Font(Font.MONOSPACED, Font.PLAIN, 13);
 
     // ===== Dimensions =====
-    public static final Dimension MENU_SIZE = new Dimension(150, 30);
+    public static final Dimension MENU_SIZE = new Dimension(150, 28);
     public static final Dimension PICKER_SIZE = new Dimension(200, 30);
     public static final Dimension mainSize = new Dimension(200, 40);
     public static final Dimension systemMessageSize = new Dimension(200, 15);
 
 
     // ===== Public entrypoint =====
-    public static void apply() {
-        //installLookAndFeel();
+    public static void apply(String theme) {
+
+        if(theme.equals("dark")){
+            path = "data/theme_dark.json";
+        }
+        else if(theme.equals("light")){
+            path = "data/theme_light.json";
+        }
+        load(path);
         installDefaults();
         installFonts(FONT_BASE);
     }
 
-    private static void installLookAndFeel() {
-        // Use system L&F for platform-feel; UIManager colors override most of it anyway.
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception ignored) { }
+    public static void load(String path){
+        ThemeConfig t;
+        try (InputStream in = AppTheme.class.getClassLoader().getResourceAsStream(path)) {
+            if (in == null) {
+                throw new IllegalStateException("Fant ikke filen: " + path);
+            }
+            String json = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8))
+                    .lines().collect(Collectors.joining("\n"));
+
+            t = objectMapper.readValue(json, ThemeConfig.class);
+        } catch (Exception e) {
+            throw new IllegalStateException("Feil ved lasting av theme", e);
+        }
+    
+        BG          = Color.decode(t.colors().get("BG"));
+        BG_2        = Color.decode(t.colors().get("BG_2"));
+        BG_3        = Color.decode(t.colors().get("BG_3"));
+        CARD_BG     = Color.decode(t.colors().get("CARD_BG"));
+        TEXT        = Color.decode(t.colors().get("TEXT"));
+        TEXT_MUTED  = Color.decode(t.colors().get("TEXT_MUTED"));
+        PRIMARY     = Color.decode(t.colors().get("PRIMARY"));
+        SECONDARY   = Color.decode(t.colors().get("SECONDARY"));
+        BORDER      = Color.decode(t.colors().get("BORDER"));
+        FOCUS       = Color.decode(t.colors().get("FOCUS"));
+        ERROR       = Color.decode(t.colors().get("ERROR"));
+        SUCCESS     = Color.decode(t.colors().get("SUCCESS"));
+        WARNING     = Color.decode(t.colors().get("WARNING"));
+        INFO        = Color.decode(t.colors().get("INFO"));
     }
+    public record ThemeConfig(Map<String, String> colors) {}
 
     private static void installDefaults() {
         // ---- Base ----
@@ -231,6 +275,7 @@ public final class AppTheme {
         put("InternalFrame.inactiveTitleBackground", BG_2);
         put("InternalFrame.inactiveTitleForeground", TEXT_MUTED);
         put("InternalFrame.border", lineBorder(BORDER));
+
     }
 
     private static void installFonts(Font baseFont) {
@@ -285,6 +330,7 @@ public final class AppTheme {
         b.setFocusPainted(false);
         b.setPreferredSize(mainSize);
         b.setMaximumSize(mainSize);
+        b.setAlignmentX(Component.CENTER_ALIGNMENT);
         b.setBorder(BorderFactory.createEmptyBorder(10, 16, 10, 16));
     }
 

@@ -147,7 +147,9 @@ public class ApiClient {
                 .DELETE()
                 .build();   
         
-        HttpResponse<String> res = client.send(req, HttpResponse.BodyHandlers.ofString());
+        client.send(req, HttpResponse.BodyHandlers.ofString());
+        //HttpResponse<String> res = client.send(req, HttpResponse.BodyHandlers.ofString());
+
     }
 
     public void setToken(String token){

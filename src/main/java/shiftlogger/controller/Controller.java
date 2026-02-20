@@ -7,7 +7,9 @@ import java.util.List;
 import java.util.UUID;
 
 import shiftlogger.service.TimeService;
+import shiftlogger.storage.SettingsLoader;
 import shiftlogger.service.AuthService;
+import shiftlogger.model.Settings;
 import shiftlogger.model.TimeEntry;
 import shiftlogger.model.User;
 
@@ -90,6 +92,23 @@ public class Controller {
     public void login(String username, String pwd) throws Exception {
         User user = authService.login(username, pwd);
         service.init(user);
+    }
+
+    public void logout(){
+        service.logout();
+    }
+
+    public boolean loggedIn(){
+        return service.loggedIn();
+    }
+
+    //SETTINGS
+    public void saveSettings(Settings settings){
+        SettingsLoader.saveSettings(settings);
+    }
+    
+    public Settings loadSettings(){
+        return SettingsLoader.loadSettings();
     }
 }
 

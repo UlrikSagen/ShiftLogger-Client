@@ -1,0 +1,18 @@
+{
+  "colors": {
+    "BG": "#141414",
+    "BG_2": "#1F1F1F",
+    "BG_3": "#2A2A2A",
+    "CARD_BG": "#1F1F1F",
+    "TEXT": "#D3D3D3",
+    "TEXT_MUTED": "#7F7F7F",
+    "PRIMARY": "#6B28C4",
+    "SECONDARY": "#2AA847",
+    "BORDER": "#343434",
+    "FOCUS": "#6B28C4",
+    "ERROR": "#D04F4F",
+    "SUCCESS": "#008000",
+    "WARNING": "#D0A94F",
+    "INFO": "#4F86D0"
+  }
+}

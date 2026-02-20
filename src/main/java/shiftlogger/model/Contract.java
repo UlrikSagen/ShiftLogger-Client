@@ -5,8 +5,8 @@ public record Contract (
     String salaryType,
     int salary,
     float overtimeFactor,
+    float overtimeTresholdHours,
     boolean paidBreak,
-    float hoursByWeek,
-    Tariff tariff
+    float hoursByWeek
 ){}
 

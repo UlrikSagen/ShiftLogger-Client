@@ -7,7 +7,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
 
 import shiftlogger.model.Contract;
-import shiftlogger.model.Tariff;
 
 public class ContractLoader {
 
@@ -22,12 +21,12 @@ public class ContractLoader {
             String salaryType = extractString(json, "salaryType");
             int salary = Integer.parseInt(extractNumber(json, "salary"));
             float overtime = Float.parseFloat(extractNumber(json, "overtimeFactor"));
+            float overtimeTreshholdHours = Float.parseFloat(extractNumber(json, "overtimeTresholdHours"));
             boolean paidBreak = Boolean.parseBoolean(extractValue(json, "paidBreak"));
-            String tariff = extractString(json, "tariff");
             float hoursByWeek = Float.parseFloat(extractNumber(json, "hoursByWeek"));
 
 
-            return new Contract(salaryType, salary, overtime, paidBreak, hoursByWeek, new Tariff(tariff));
+            return new Contract(salaryType, salary, overtimeTreshholdHours, overtime, paidBreak, hoursByWeek);
         } catch (Exception e) {
             throw new IllegalStateException("Feil ved lasting av kontrakt", e);
         }

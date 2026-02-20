@@ -23,7 +23,7 @@ public class AuthService {
     public User login(String username, String pwd) throws Exception{
         try{
             LoginResponse res = client.loginRequest(username, pwd);
-            return new User(res.username(), res.token(), res.contract(), res.settings());
+            return new User(res.username(), res.token(), res.contract());
 
         }catch(Exception e){
             throw new RuntimeException("Could not log in: " + e.getMessage());

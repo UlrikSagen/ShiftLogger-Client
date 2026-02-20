@@ -28,7 +28,7 @@ public class LoginScreen extends JPanel {
         this.controller = controller;
 
         setLayout(new BorderLayout());
-        setBackground(AppTheme.BG);
+        //setBackground(AppTheme.BG);
 
         add(buildCenterCard(), BorderLayout.CENTER);
         add(buildFooter(), BorderLayout.SOUTH);
@@ -44,7 +44,7 @@ public class LoginScreen extends JPanel {
         JPanel card = new JPanel();
         card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
         card.setBorder(new EmptyBorder(28, 28, 24, 28));
-        card.setBackground(AppTheme.BG);
+        //card.setBackground(AppTheme.BG);
         card.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // Logo
@@ -58,7 +58,7 @@ public class LoginScreen extends JPanel {
         JLabel title = new JLabel("Welcome");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
         title.setFont(new Font("Inter", Font.BOLD, 20));
-        title.setForeground(AppTheme.TEXT);
+        //title.setForeground(AppTheme.TEXT);
         card.add(title);
         card.add(Box.createVerticalStrut(22));
 
@@ -76,8 +76,8 @@ public class LoginScreen extends JPanel {
         passwordField.setMinimumSize(fieldSize);
         passwordField.setMaximumSize(fieldSize);
 
-        AppTheme.styleTextField(usernameField);
-        AppTheme.styleTextField(passwordField);
+        //AppTheme.styleTextField(usernameField);
+        //AppTheme.styleTextField(passwordField);
 
         addRow(form, 0, "Username", usernameField);
         addRow(form, 1, "Password", passwordField);
@@ -159,7 +159,7 @@ public class LoginScreen extends JPanel {
 
         JLabel label = new JLabel(labelText);
         label.setFont(new Font("Inter", Font.PLAIN, 13));
-        label.setForeground(AppTheme.TEXT);
+        //label.setForeground(AppTheme.TEXT);
         form.add(label, c);
 
         c.gridy = row * 2 + 1;
@@ -211,10 +211,12 @@ public class LoginScreen extends JPanel {
 
                 try {
                     get();
+                    passwordField.setText("");
                     view.onLoginSuccess();
                                         
                 } catch (Exception ex) {
                     System.out.println(ex.getMessage());
+                    passwordField.setText("");
                     statusLabel.setText("Login failed.");
                 }
             }

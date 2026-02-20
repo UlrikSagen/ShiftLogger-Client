@@ -7,6 +7,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -16,6 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import shiftlogger.app.Main;
 import shiftlogger.controller.Controller;
 import shiftlogger.view.MainView;
 import shiftlogger.view.util.AppTheme;
@@ -34,6 +36,7 @@ public class MainScreen extends JPanel {
     private final JButton overviewButton = new JButton("Overview");
     private final JButton settingsButton = new JButton("Settings");
     private final JButton hideButton = new JButton("Hide Window");
+    private final JButton logoutButton = new JButton("Log out");
     private final JLabel systemMessage = new JLabel();
     
     Dimension mainSize = new Dimension(200, 40);
@@ -126,6 +129,10 @@ public class MainScreen extends JPanel {
         AppTheme.styleMenuButton(hideButton);
         hideButton.addActionListener(e -> minimizeToTray());
 
+        //LOGOUT BUTTON
+        AppTheme.styleMenuButton(logoutButton);
+        logoutButton.addActionListener(e -> logout());
+
         //EXIT BUTTON
         AppTheme.styleMenuButton(exitButton);
         exitButton.addActionListener(e -> exit());     
@@ -157,6 +164,8 @@ public class MainScreen extends JPanel {
         menu.add(Box.createVerticalStrut(10));
         menu.add(hideButton);
         menu.add(Box.createVerticalStrut(10));
+        menu.add(logoutButton);
+        menu.add(Box.createVerticalStrut(10));
         menu.add(exitButton);
     }
 
@@ -167,19 +176,29 @@ public class MainScreen extends JPanel {
 
         startButton.setVisible(false);
         stopButton.setVisible(true);
-        systemMessage.setText("Timer started");
+        systemMessage.setText(" ");
         swingTimer.start();
     }
 
     private void stopTimer(){
-        endTime = LocalTime.now().withNano(0);
+        endTime = LocalTime.now().truncatedTo(ChronoUnit.MINUTES);
+        startTime = startTime.truncatedTo(ChronoUnit.MINUTES);
         startButton.setVisible(true);
         stopButton.setVisible(false);
-        systemMessage.setText("Timer stopped");
+        systemMessage.setText(" ");
         swingTimer.stop();
         try{
-            controller.postEntry(startDate, startTime, endTime);
+            if(controller.validateEntry(startDate, startTime, endTime)){
+                controller.postEntry(startDate, startTime, endTime);
+                systemMessage.setForeground(AppTheme.SUCCESS);
+                systemMessage.setText("New shift added");
+            }
+            else{
+                systemMessage.setForeground(AppTheme.ERROR);
+                systemMessage.setText("Shift too short");
+            }
         }catch(Exception e){
+            systemMessage.setText("Could not create entry.");
             System.out.println(e.getMessage());
         }
     }
@@ -201,13 +220,24 @@ public class MainScreen extends JPanel {
     }
 
     private void settings(){
-        System.out.println("Settings placeholder");
+        view.showSettings();
+    }
+
+
+    private void logout(){
+        if(swingTimer.isRunning()){
+            stopTimer();
+        }
+        controller.logout();
+        view.logout();
+        //view.dispose(); 
+        //Main.reLaunch();
     }
 
     private void exit(){
         if (swingTimer.isRunning()){
             stopTimer();
-        }
+        }view.logout();
         view.exit();
     }
 

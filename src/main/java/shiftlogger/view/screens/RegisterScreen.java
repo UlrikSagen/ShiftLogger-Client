@@ -6,7 +6,6 @@ import shiftlogger.view.util.AppTheme;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.HyperlinkEvent;
 
 import java.awt.*;
 import java.util.Arrays;
@@ -28,7 +27,7 @@ public class RegisterScreen extends JPanel {
         this.controller = controller;
 
         setLayout(new BorderLayout());
-        setBackground(AppTheme.BG);
+        //setBackground(AppTheme.BG);
 
         add(buildCenterCard(), BorderLayout.CENTER);
         add(buildFooter(), BorderLayout.SOUTH);
@@ -44,7 +43,7 @@ public class RegisterScreen extends JPanel {
         JPanel card = new JPanel();
         card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
         card.setBorder(new EmptyBorder(28, 28, 24, 28));
-        card.setBackground(AppTheme.BG);
+        //card.setBackground(AppTheme.BG);
         card.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // Logo
@@ -58,7 +57,7 @@ public class RegisterScreen extends JPanel {
         JLabel title = new JLabel("Register new user:");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
         title.setFont(new Font("Inter", Font.BOLD, 20));
-        title.setForeground(AppTheme.TEXT);
+        //title.setForeground(AppTheme.TEXT);
         card.add(title);
         card.add(Box.createVerticalStrut(22));
 
@@ -76,8 +75,8 @@ public class RegisterScreen extends JPanel {
         passwordField.setMinimumSize(fieldSize);
         passwordField.setMaximumSize(fieldSize);
 
-        AppTheme.styleTextField(usernameField);
-        AppTheme.styleTextField(passwordField);
+        //AppTheme.styleTextField(usernameField);
+        //AppTheme.styleTextField(passwordField);
 
         addRow(form, 0, "Username", usernameField);
         addRow(form, 1, "Password", passwordField);
@@ -90,8 +89,8 @@ public class RegisterScreen extends JPanel {
         subtitle.setEditable(false);
         subtitle.setOpaque(false);
         subtitle.setFocusable(false);
-        subtitle.setBackground(AppTheme.BG); 
-        subtitle.setFont(AppTheme.FONT_SUBTITLE);
+        //subtitle.setBackground(AppTheme.BG); 
+        //subtitle.setFont(AppTheme.FONT_SUBTITLE);
         subtitle.setText("\u00A0");
         card.add(subtitle);
         card.add(Box.createVerticalStrut(14));
@@ -149,7 +148,7 @@ public class RegisterScreen extends JPanel {
 
         JLabel label = new JLabel(labelText);
         label.setFont(new Font("Inter", Font.PLAIN, 13));
-        label.setForeground(AppTheme.TEXT);
+        //label.setForeground(AppTheme.TEXT);
         form.add(label, c);
 
         c.gridy = row * 2 + 1;

@@ -4,20 +4,16 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.w3c.dom.events.Event;
 
 import shiftlogger.http.ApiClient;
 import shiftlogger.model.Contract;
 import shiftlogger.model.TimeEntry;
-import shiftlogger.model.TimeEntry;
 import shiftlogger.model.User;
-import shiftlogger.storage.TimeRepository;
 
 
 
@@ -27,6 +23,7 @@ public class TimeService {
     private final ApiClient api;
     private User user;
     private List<TimeEntry> entries = new ArrayList<>();
+    private boolean loggedIn = false;
     
 
     public TimeService(ApiClient api){
@@ -39,6 +36,16 @@ public class TimeService {
         this.entries = api.getEntry(Optional.empty(), Optional.empty());
         this.entries.sort(Comparator.comparing(TimeEntry::date));
         this.contract = user.contract();
+        this.loggedIn = true;
+    }
+
+    public void logout(){
+        this.api.setToken(null);
+        this.loggedIn = false;
+    }
+
+    public boolean loggedIn(){
+        return loggedIn;
     }
 
     public List<TimeEntry> getEntries(){
@@ -173,7 +180,7 @@ public class TimeService {
         if(date.isAfter(LocalDate.now())){
             return false;
         }
-        else if(start.isAfter(end)){
+        else if(!start.isBefore(end)){
             return false;
         }
         else{

@@ -38,16 +38,37 @@ public class MonthEntriesPanel extends JPanel {
 
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         table.setFillsViewportHeight(true);
-        table.setFocusable(false);
+        table.setFocusable(true);
 
 
-        // Dobbeltklikk = edit
+        // Høyreklikk-meny
+        JPopupMenu menu = new JPopupMenu();
+        JMenuItem edit = new JMenuItem("Rediger");
+        JMenuItem del = new JMenuItem("Slett");
+        edit.addActionListener(e -> editSelected());
+        del.addActionListener(e -> deleteSelected());
+        menu.add(edit);
+        menu.add(del);
+
         table.addMouseListener(new MouseAdapter() {
             @Override public void mouseClicked(MouseEvent e) {
-                if (e.getClickCount() == 2 && table.getSelectedRow() >= 0) {
+                int row = table.rowAtPoint(e.getPoint());
+                if (row < 0) return;
+
+                if (e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1) {
                     editSelected();
                 }
-            }DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+            }
+
+            @Override public void mousePressed(MouseEvent e) {
+                int row = table.rowAtPoint(e.getPoint());
+                if (row < 0) return;
+
+                if (e.getButton() == MouseEvent.BUTTON3) {
+                    table.setRowSelectionInterval(row, row);
+                    menu.show(table, e.getX(), e.getY());
+                }
+            }
         });
 
         // Enter = edit, Delete = slett
@@ -60,19 +81,10 @@ public class MonthEntriesPanel extends JPanel {
         table.getActionMap().put("delete", new AbstractAction() {
             @Override public void actionPerformed(ActionEvent e) { deleteSelected(); }
         });
-
-        // Høyreklikk-meny
-        JPopupMenu menu = new JPopupMenu();
-        JMenuItem edit = new JMenuItem("Rediger");
-        JMenuItem del = new JMenuItem("Slett");
-        edit.addActionListener(e -> editSelected());
-        del.addActionListener(e -> deleteSelected());
-        menu.add(edit);
-        menu.add(del);
-
-        table.setComponentPopupMenu(menu);
-
-        add(new JScrollPane(table), BorderLayout.CENTER);
+        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setBorder(BorderFactory.createLineBorder(AppTheme.BORDER));
+        scrollPane.setViewportBorder(null);
+        add(scrollPane, BorderLayout.CENTER);
     }
 
     public void setEntriesForMonth(java.util.List<TimeEntry> entries) {
@@ -99,11 +111,12 @@ public class MonthEntriesPanel extends JPanel {
         int ok = JOptionPane.showConfirmDialog(this, "Vil du slette denne oppførningen?     \n" + entry.date() + " (" + entry.start() + "-" + entry.end() + ")", "Bekreft sletting", JOptionPane.YES_NO_OPTION);
 
         if (ok == JOptionPane.YES_OPTION) {
-            model.removeAt(row);
             try{
                 controller.deleteEntry(entry.id());
+                model.removeAt(row);
+
             }catch(Exception e){
-                
+                JOptionPane.showMessageDialog(this, "Kunne ikke slette entry");
             }
         }
     }

@@ -46,7 +46,7 @@ public class ManualEntryScreen extends JPanel{
     private final JLabel placeholder = new JLabel("Add or Edit");
     private final JLabel systemMessage = new JLabel(" ");
 
-    private final JButton enterButton = new JButton("Add new entry");
+    private final JButton enterButton = new JButton("Add new shift");
     private final JButton backButton = new JButton("Back");
 
     private UUID id;
@@ -117,7 +117,7 @@ public class ManualEntryScreen extends JPanel{
         dateSettings.setFontInvalidDate(AppTheme.FONT_BASE);
         
         //TIME PICKER SETTINGS
-        //timeSettings.setFormatForDisplayTime("hh:mm");
+        timeSettings.setFormatForDisplayTime("hh:mm");
         timeSettings.setColor(TimePickerSettings.TimeArea.TextFieldBackgroundValidTime, AppTheme.BG_2);
         timeSettings.setColor(TimePickerSettings.TimeArea.TextFieldBackgroundInvalidTime, AppTheme.BG_2);
         timeSettings.setColor(TimePickerSettings.TimeArea.TimePickerTextValidTime, AppTheme.TEXT);
@@ -195,7 +195,7 @@ public class ManualEntryScreen extends JPanel{
         add(Box.createVerticalStrut(30));
         add(body);
         body.add(enterButton);
-        add(Box.createVerticalStrut(10));
+        body.add(Box.createVerticalStrut(10));
         body.add(systemMessage);
 
 
@@ -226,11 +226,11 @@ public class ManualEntryScreen extends JPanel{
                 }
             }
             systemMessage.setForeground(AppTheme.SECONDARY);
-            systemMessage.setText("Entry submitted");
+            systemMessage.setText("Shift added");
         }
         else{
-            systemMessage.setForeground(AppTheme.WARNING);
-            systemMessage.setText("Invalid entry");
+            systemMessage.setForeground(AppTheme.ERROR);
+            systemMessage.setText("Invalid shift");
         }
     }
     private LocalDate getDate(){
@@ -245,11 +245,11 @@ public class ManualEntryScreen extends JPanel{
     public void refresh(){
         systemMessage.setText(" ");
         id = null;
-        enterButton.setText("Add new entry");
+        enterButton.setText("Add new shift");
     }
     public void editEntry(UUID id, LocalDate date, LocalTime start, LocalTime end){
         systemMessage.setText(" ");
-        enterButton.setText("Edit Entry");
+        enterButton.setText("Edit entry");
         this.id = id;
         dp.setDate(date);
         tpStart.setTime(start);
