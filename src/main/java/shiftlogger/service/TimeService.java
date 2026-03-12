@@ -21,7 +21,6 @@ public class TimeService {
 
     private Contract contract;
     private final ApiClient api;
-    private User user;
     private List<TimeEntry> entries = new ArrayList<>();
     private boolean loggedIn = false;
     
@@ -31,7 +30,6 @@ public class TimeService {
     }
 
     public void init(User user) throws Exception{
-        this.user = user;
         this.api.setToken(user.token());
         this.entries = api.getEntry(Optional.empty(), Optional.empty());
         this.entries.sort(Comparator.comparing(TimeEntry::date));
@@ -61,7 +59,6 @@ public class TimeService {
     public void updateEntry(UUID id, LocalDate date, LocalTime start, LocalTime end) throws Exception{
         this.entries.removeIf(entry -> entry.id().equals(id));
         this.entries.add(api.updateEntry(id, date, start, end));
-        //this.entries = api.getEntry(Optional.empty(), Optional.empty());
         this.entries.sort(Comparator.comparing(TimeEntry::date));
     }
 

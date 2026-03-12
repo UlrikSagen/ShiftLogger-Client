@@ -28,10 +28,12 @@ public class TrayManager {
             return;
         }
         this.tray = SystemTray.getSystemTray();
-        Image image = Toolkit.getDefaultToolkit().getImage("images/Time-tracker-icon.png");
-
+        Image image = Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("images/shiftlogger-icon.png"));
+        Image scaled = image.getScaledInstance(16, 16, Image.SCALE_SMOOTH);
         PopupMenu menu = new PopupMenu();
-
+        this.trayIcon = new TrayIcon(scaled, "ShiftLogger", menu);
+        trayIcon.setImageAutoSize(false);
+        
         MenuItem openItem = new MenuItem("Åpne");
         openItem.addActionListener(e -> open());
 
@@ -42,9 +44,6 @@ public class TrayManager {
 
         menu.add(openItem);
         menu.add(exitItem);
-
-        this.trayIcon = new TrayIcon(image, "Time Tracker", menu);
-        trayIcon.setImageAutoSize(true);
 
         try {
             tray.add(trayIcon);

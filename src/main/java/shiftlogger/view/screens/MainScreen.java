@@ -3,6 +3,7 @@ package shiftlogger.view.screens;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Image;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -17,7 +18,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import shiftlogger.app.Main;
 import shiftlogger.controller.Controller;
 import shiftlogger.view.MainView;
 import shiftlogger.view.util.AppTheme;
@@ -53,7 +53,9 @@ public class MainScreen extends JPanel {
     public MainScreen(MainView view, Controller controller){
         this.controller = controller;
         this.view = view;
-        ImageIcon logo = new ImageIcon(view.res("images/Time-tracker-logo.png"));
+        ImageIcon icon = new ImageIcon(view.res("images/shiftlogger-logo.png"));
+        Image scaled = icon.getImage().getScaledInstance(250 , 80, Image.SCALE_SMOOTH);
+        ImageIcon logo = new ImageIcon(scaled);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         //HEADER PANEL
@@ -230,8 +232,6 @@ public class MainScreen extends JPanel {
         }
         controller.logout();
         view.logout();
-        //view.dispose(); 
-        //Main.reLaunch();
     }
 
     private void exit(){

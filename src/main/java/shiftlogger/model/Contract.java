@@ -1,6 +1,5 @@
 package shiftlogger.model;
 
-
 public record Contract (
     String salaryType,
     int salary,
@@ -9,4 +8,3 @@ public record Contract (
     boolean paidBreak,
     float hoursByWeek
 ){}
-

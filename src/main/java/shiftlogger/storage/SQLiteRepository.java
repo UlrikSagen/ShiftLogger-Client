@@ -8,7 +8,6 @@ import java.util.*;
 
 import shiftlogger.model.Contract;
 import shiftlogger.model.LegacyTimeEntry;
-import shiftlogger.model.TimeEntry;
 
 public class SQLiteRepository implements TimeRepository {
 

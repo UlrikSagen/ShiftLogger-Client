@@ -46,7 +46,7 @@ public class MainView extends JFrame{
         add(root);
         this.controller = controller;
         this.settings = settings;
-        Image icon = new ImageIcon(res("images/Time-tracker-icon.png")).getImage();
+        Image icon = new ImageIcon(res("images/shiftlogger-icon.png")).getImage();
 
         new TrayManager(this);
 

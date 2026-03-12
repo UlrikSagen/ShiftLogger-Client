@@ -7,8 +7,6 @@ import javax.swing.plaf.FontUIResource;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import shiftlogger.model.Contract;
-
 import java.awt.*;
 import java.util.Enumeration;
 import java.util.Map;

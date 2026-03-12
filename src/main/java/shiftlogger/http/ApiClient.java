@@ -148,8 +148,6 @@ public class ApiClient {
                 .build();   
         
         client.send(req, HttpResponse.BodyHandlers.ofString());
-        //HttpResponse<String> res = client.send(req, HttpResponse.BodyHandlers.ofString());
-
     }
 
     public void setToken(String token){

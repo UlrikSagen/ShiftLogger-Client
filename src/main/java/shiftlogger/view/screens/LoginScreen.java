@@ -48,7 +48,9 @@ public class LoginScreen extends JPanel {
         card.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // Logo
-        ImageIcon logo = new ImageIcon(view.res("images/Time-tracker-logo.png"));
+        ImageIcon icon = new ImageIcon(view.res("images/shiftlogger-logo.png"));
+        Image scaled = icon.getImage().getScaledInstance(250 , 80, Image.SCALE_SMOOTH);
+        ImageIcon logo = new ImageIcon(scaled);
         JLabel logoLabel = new JLabel(logo);
         logoLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         card.add(logoLabel);

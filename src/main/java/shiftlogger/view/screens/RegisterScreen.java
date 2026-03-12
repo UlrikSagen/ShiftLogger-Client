@@ -43,11 +43,12 @@ public class RegisterScreen extends JPanel {
         JPanel card = new JPanel();
         card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
         card.setBorder(new EmptyBorder(28, 28, 24, 28));
-        //card.setBackground(AppTheme.BG);
         card.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // Logo
-        ImageIcon logo = new ImageIcon(view.res("images/Time-tracker-logo.png"));
+        ImageIcon icon = new ImageIcon(view.res("images/shiftlogger-logo.png"));
+        Image scaled = icon.getImage().getScaledInstance(250 , 80, Image.SCALE_SMOOTH);
+        ImageIcon logo = new ImageIcon(scaled);
         JLabel logoLabel = new JLabel(logo);
         logoLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         card.add(logoLabel);
@@ -57,7 +58,6 @@ public class RegisterScreen extends JPanel {
         JLabel title = new JLabel("Register new user:");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
         title.setFont(new Font("Inter", Font.BOLD, 20));
-        //title.setForeground(AppTheme.TEXT);
         card.add(title);
         card.add(Box.createVerticalStrut(22));
 
@@ -75,22 +75,18 @@ public class RegisterScreen extends JPanel {
         passwordField.setMinimumSize(fieldSize);
         passwordField.setMaximumSize(fieldSize);
 
-        //AppTheme.styleTextField(usernameField);
-        //AppTheme.styleTextField(passwordField);
-
-        addRow(form, 0, "Username", usernameField);
-        addRow(form, 1, "Password", passwordField);
+        addRow(form, 0, "New username", usernameField);
+        addRow(form, 1, "Set password", passwordField);
 
         card.add(form);
 
         //Subtitle
         JEditorPane subtitle = new JEditorPane();
         subtitle.setContentType("text/html");
+        subtitle.setFont(AppTheme.FONT_SUBTITLE);
         subtitle.setEditable(false);
         subtitle.setOpaque(false);
         subtitle.setFocusable(false);
-        //subtitle.setBackground(AppTheme.BG); 
-        //subtitle.setFont(AppTheme.FONT_SUBTITLE);
         subtitle.setText("\u00A0");
         card.add(subtitle);
         card.add(Box.createVerticalStrut(14));

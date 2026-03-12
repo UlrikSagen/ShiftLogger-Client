@@ -1,6 +1,7 @@
 package shiftlogger.view.screens;
 
 import java.awt.Component;
+import java.awt.Image;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Locale;
@@ -54,7 +55,9 @@ public class ManualEntryScreen extends JPanel{
     public ManualEntryScreen(MainView view, Controller controller){
         this.controller = controller;
         this.view = view;
-        ImageIcon logo = new ImageIcon(view.res("images/Time-tracker-logo.png"));
+        ImageIcon icon = new ImageIcon(view.res("images/shiftlogger-logo.png"));
+        Image scaled = icon.getImage().getScaledInstance(250 , 80, Image.SCALE_SMOOTH);
+        ImageIcon logo = new ImageIcon(scaled);
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
@@ -117,7 +120,8 @@ public class ManualEntryScreen extends JPanel{
         dateSettings.setFontInvalidDate(AppTheme.FONT_BASE);
         
         //TIME PICKER SETTINGS
-        timeSettings.setFormatForDisplayTime("hh:mm");
+        timeSettings.use24HourClockFormat();
+        //timeSettings.setFormatForDisplayTime("hh:mm");
         timeSettings.setColor(TimePickerSettings.TimeArea.TextFieldBackgroundValidTime, AppTheme.BG_2);
         timeSettings.setColor(TimePickerSettings.TimeArea.TextFieldBackgroundInvalidTime, AppTheme.BG_2);
         timeSettings.setColor(TimePickerSettings.TimeArea.TimePickerTextValidTime, AppTheme.TEXT);

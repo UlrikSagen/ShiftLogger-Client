@@ -3,7 +3,6 @@ package shiftlogger.view.screens;
 import shiftlogger.app.Main;
 import shiftlogger.controller.Controller;
 import shiftlogger.model.Settings;
-import shiftlogger.storage.SettingsLoader;
 import shiftlogger.view.MainView;
 import shiftlogger.view.util.AppTheme;
 

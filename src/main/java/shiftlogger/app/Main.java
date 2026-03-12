@@ -20,7 +20,7 @@ public class Main {
     public static void main(String[] args) throws Exception{
         controller = new Controller(new TimeService(new ApiClient()), new AuthService());
         settings = SettingsLoader.loadSettings();
-        setTheme();        
+        setTheme();
         launch();
     }
 
