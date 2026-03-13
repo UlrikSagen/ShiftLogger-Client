@@ -28,7 +28,7 @@ public class ApiClient {
     private String token;
 
     public ApiClient(){
-        this.BASE_ADDR = "http://100.99.33.100/api";
+        this.BASE_ADDR = "https://api.shiftlogger.no";
     }
 
     public RegisterResponse registerRequest(String username, String pwd) throws Exception{
