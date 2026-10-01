@@ -197,7 +197,8 @@ public class LoginScreen extends JPanel {
         }
 
         SwingWorker<Void, Void> worker = new SwingWorker<>() {
-            @Override protected Void doInBackground() throws Exception {
+            @Override 
+            protected Void doInBackground() throws Exception {
                 
                 try{
                     controller.login(username, password);

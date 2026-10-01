@@ -20,7 +20,7 @@ public class Main {
     public static void main(String[] args) throws Exception{
         controller = new Controller(new TimeService(new ApiClient()), new AuthService());
         settings = SettingsLoader.loadSettings();
-        setTheme();
+        setTheme(settings);
         launch();
     }
 
@@ -30,18 +30,18 @@ public class Main {
                 new MainView(settings, controller).showUI();
 
             }catch(Exception e){
-                System.out.println(e.getMessage());
+                e.printStackTrace();
             }
         });
     }
 
     public static void reLaunch(){
         settings = SettingsLoader.loadSettings();
-        setTheme();        
+        setTheme(settings);        
         launch();
     }
 
-    public static void setTheme(){
+    public static void setTheme(Settings settings){
         if(settings.theme().equals("dark")){
             FlatDarkLaf.setup();
             AppTheme.apply(settings.theme());

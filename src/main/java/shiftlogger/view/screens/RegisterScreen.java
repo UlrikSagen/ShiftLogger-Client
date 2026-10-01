@@ -153,7 +153,10 @@ public class RegisterScreen extends JPanel {
     }
 
     private void wireActions() {
-        backButton.addActionListener(e -> view.showLogin(" ", AppTheme.ERROR));
+        backButton.addActionListener(e -> {
+            view.showLogin(" ", AppTheme.ERROR);
+            statusLabel.setText("");
+        });
 
         passwordField.addActionListener(e -> register());
         usernameField.addActionListener(e -> passwordField.requestFocusInWindow());
@@ -173,8 +176,12 @@ public class RegisterScreen extends JPanel {
             setBusy(false);
             return;
         }
+        if (username.length() > 20){
+            statusLabel.setText("Username must be shorter than 20 charachters long");
+            setBusy(false);
+        }
         if (password.isBlank()) {
-            statusLabel.setText("Please enter password");
+            statusLabel.setText("Please enter a password");
             setBusy(false);
             return;
         }else if(password.length() < 8){

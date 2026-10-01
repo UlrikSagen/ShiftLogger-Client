@@ -147,12 +147,6 @@ public class SettingsScreen extends JPanel {
         view.dispose();
         Main.reLaunch();
     }
-    public void setStatus(String status, Color color){
-        usernameField.setText("");
-        passwordField.setText("");
-        this.statusLabel.setForeground(color);
-        this.statusLabel.setText(status);
-    }
 
     public void refresh(){
         darkThemeButton.setSelected(settings.theme().equals("dark") ? true : false);
