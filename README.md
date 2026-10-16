@@ -59,13 +59,14 @@ java -jar target/<filnavn>.jar
 ```
 ## Kjente svakheter
 - Endring av tema restarter i dag hele applikasjonen
-- Timeren lever i view, men burde flyttes til controller
+- Timeren lever i view, men burde flyttes til service
 - Contract er ikke i bruk
   
 ## Veien videre
 
 - [ ] Fjerne gammel legacy-kode for lokal SQLite-lagring fra før server-integrasjonen
 - [ ] Gjøre endring mellom themes mer robust
+- [ ] flytte timeren fra view til service
 - [ ] Strukturert logging i stedet for utskrift til konsoll
 - [ ] Enhetstester, særlig for lønns- og overtidsberegningen
 - [ ] Valgfri "husk meg"-funksjon
