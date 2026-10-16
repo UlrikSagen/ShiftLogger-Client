@@ -1,4 +1,4 @@
-# ShiftLogger
+# ShiftLogger-Client
 
 Skrivebordsklient for registrering av arbeidstimer og beregning av lønn og overtid. Klienten kommuniserer med [shiftlogger-api](../shiftlogger-api), som kjører i drift på egen server.
 
@@ -20,7 +20,7 @@ Applikasjonen er lagdelt slik at brukergrensesnittet ikke vet noe om HTTP eller 
 ```
 view (Swing-skjermer)
   ↓
-controller (tynt fasadelag)
+controller
   ↓
 service (autentisering, timeregistreringer, beregninger)
   ↓
@@ -30,7 +30,7 @@ http (all kommunikasjon med API-et)
 | Lag | Ansvar |
 |-----|--------|
 | `view` | Swing-UI med `CardLayout`-navigasjon, tema og systray |
-| `controller` | Eneste inngangspunkt fra UI-et, ren delegering |
+| `controller` | Eneste inngangspunkt fra UI-et |
 | `service` | Innlogging, lokal cache av registreringer, lønns- og overtidslogikk |
 | `http` | `ApiClient` samler all kommunikasjon med serveren |
 | `model` | Immutable `record`-typer som deles mellom lagene |
@@ -39,7 +39,7 @@ http (all kommunikasjon med API-et)
 
 - All kommunikasjon går over HTTPS
 - JWT-tokenet holdes kun i minnet og lagres aldri på disk
-- HTTP-klienten er bygget på `java.net.http.HttpClient` og Jackson, uten tredjeparts HTTP-rammeverk
+- HTTP-klienten er bygget på `java.net.http.HttpClient` og Jackson.
 - Brukerens data hentes alltid via det autentiserte API-et. Klienten har ingen direkte tilgang til databasen.
 
 ## Teknologier
@@ -57,10 +57,15 @@ mvn package
 # Kjør
 java -jar target/<filnavn>.jar
 ```
-
+## Kjente svakheter
+- Endring av tema restarter i dag hele applikasjonen
+- Timeren lever i view, men burde flyttes til controller
+- Contract er ikke i bruk
+  
 ## Veien videre
 
-- [ ] Fjerne legacy-kode for lokal SQLite-lagring fra før server-integrasjonen
+- [ ] Fjerne gammel legacy-kode for lokal SQLite-lagring fra før server-integrasjonen
+- [ ] Gjøre endring mellom themes mer robust
 - [ ] Strukturert logging i stedet for utskrift til konsoll
 - [ ] Enhetstester, særlig for lønns- og overtidsberegningen
 - [ ] Valgfri "husk meg"-funksjon
